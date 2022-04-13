@@ -1,41 +1,34 @@
-import { StyleSheet, Text, View, TextInput, Vibration, TouchableOpacity, FlatList, Modal, ScrollView } from 'react-native';
-import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
-import { useState } from 'react/cjs/react.development';
+/* import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View } from 'react-native'; */
+
+/* import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native'; */
+
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 
-import Home from './views/Home';
-import Login from './views/Login';
+// Stacks
+import ApplicationContent from './app/stacks/ApplicationContent';
 
 export default function App() {
-  const [accountData, setAccountData] = useState({ email: '', password: '' })
-  const [loaded] = useFonts({
-    'Roboto-Thin': require('./assets/fonts/Roboto-Thin.ttf'),
-    'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
-    'Roboto-Bold': require('./assets/fonts/Roboto-Bold.ttf'),
-    'GrapeNuts-Regular': require('./assets/fonts/GrapeNuts-Regular.ttf'),
-  });
+    const [fontsLoaded] = useFonts({
+        /* 'RooneySans-Light': require('./assets/fonts/rooneysans/RooneySansLight.woff'),
+        'RooneySans': require('./assets/fonts/rooneysans/RooneySansRegular.woff'),
+        'RooneySans-Medium': require('./assets/fonts/rooneysans/RooneySansMedium.woff'),*/
+        'RooneySans-Bold': require('./assets/fonts/rooneysans/RooneySans-Bold.ttf'),
+        /* 'RooneySans-Black': require('./assets/fonts/rooneysans/RooneySansBlk.woff'),  */
+        'Nunito-Regular': require('./assets/fonts/nunito/Nunito-Regular.ttf'),
+        'Nunito-Bold': require('./assets/fonts/nunito/Nunito-Bold.ttf'),
+        'Nunito-ExtraBold': require('./assets/fonts/nunito/Nunito-ExtraBold.ttf'),
+    });
 
-  return (
-    <>
-      {loaded ? (
-        <>
-          {!accountData.email ? (
-            <Login logIn={(email, password) => {
-              setAccountData({ email, password })
-            }} />
-          ) : (
-            <Home logOut={() => {
-              setAccountData({ email: '', password: '' })
-            }} />
-          )}
-        </>
-      ) : (
-        <AppLoading />
-      )}
-
-
-    </>
-  );
+    if (!fontsLoaded) {
+        return <AppLoading />;
+    } else {
+        return (
+            <>
+                <ApplicationContent />
+            </>
+        );
+    }
 }
-
