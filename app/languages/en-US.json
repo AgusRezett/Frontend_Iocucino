@@ -1,0 +1,39 @@
+{
+    "page.title": "Settings",
+
+    "navbar.option.home": "Home",
+    "navbar.option.wallets": "Wallets",
+    "navbar.option.crypto": "Cryptocurrencies",
+    "navbar.option.configuration": "Configuration",
+    "navbar.option.settings": "Settings",
+    "navbar.option.preferences": "Preferences",
+    "navbar.option.account": "Account",
+
+    "config.settings.option.title.language": "Language & region",
+    "config.settings.option.description.language": "Chose a language with which to display the application",
+    "config.settings.option.title.notifications": "Notifications",
+    "config.settings.option.description.notifications": "Activate the notifications you want to receive",
+    "config.settings.option.title.devices": "Devices",
+    "config.settings.option.description.devices": "Manage the devices where your active account is located",
+
+    "config.preferences.option.title.currencies": "My currencies",
+    "config.preferences.option.description.currencies": "Choose up to 3 currencies to display the values of your wallets",
+
+    "config.modal.title.language": "Choose a language and region",
+    "language.option.ar": "العربية",
+    "language.option.de": "Deutsch",
+    "language.option.es": "Español",
+    "region.option.ar": "Argentina",
+    "region.option.es": "España",
+    "language.option.fr": "Français",
+    "language.option.en": "English",
+    "region.option.gb": "United Kingdom",
+    "region.option.us": "United States",
+    "language.option.it": "Italiano",
+    "language.option.jp": "日本",
+    "language.option.pt": "Português",
+    "region.option.br": "Brasil",
+    "language.option.ru": "Pусский",
+    "language.option.zh": "中文",
+    "region.option.cn": "简体"
+}

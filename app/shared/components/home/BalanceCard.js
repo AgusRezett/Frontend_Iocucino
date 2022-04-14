@@ -24,43 +24,23 @@ export default function BalanceCard({ badgeId, value }) {
                     id={badgeDictionary[badgeId].title}
                     defaultMessage="Error"
                 /> */}
-                        <Text style={styles.balanceCardTitleContent}>Pesos Argentinos</Text>
+                        <Text style={styles.balanceCardTitleContent}>{badge.title}</Text>
                     </View>
-                    <Text style={{ color: "black", position: "absolute" }}>
-                        {badge.backgroundClass}
-                    </Text>
-                    <Image
-                        style={styles.balanceCardFlag}
-                        source={require(`../../../../assets/svgs/shield.png`)}
-                    // source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
-                    />
-                    {/* <img src={badgeDictionary[badgeId].flag} alt="" /> */}
+                    <View style={styles.balanceCardBody}>
+                        <View style={styles.balanceCardValueContainer}>
+                            <Text style={styles.balanceCarBadgeContent}>{badge.badge}</Text>
+                            <Text style={styles.balanceCardValueContent}>{value}</Text>
+                        </View>
+                        <Image
+                            style={styles.balanceCardFlag}
+                            source={require(`../../../../assets/svgs/shield.png`)}
+                        // source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
+                        />
+                        {/* <img src={badgeDictionary[badgeId].flag} alt="" /> */}
+                    </View>
+                    <Text style={{ width: "100%", textAlign: "left", fontFamily: "Nunito-Regular", color: "#fff" }}>disponibles</Text>
                 </View>
-                {/*
-            <div className="balance-card-bottom">
-                {`${badgeDictionary[badgeId].badge} ${value}`}
-                <div className='secondary-curreny-value'>
-                    <FormattedMessage
-                        id="home.card.balance.total"
-                        defaultMessage="Total"
-                    />
-                    : {badgeDictionary[badgeId].badge} {parseInt(value) + 6066.45}
-                </div>
-                <div className="expand-toggler" onClick={(e) => expandCardBottom(e)}>
-                    <svg
-                        width="48px"
-                        height="48px"
-                        viewBox="0 0 24 24"
-                        stroke="#000"
-                        strokeWidth="1"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        fill='none'
-                    >
-                        <polyline id={`cardArrow${badgeId}`} points="6 10 12 16 18 10" />
-                    </svg>
-                </div>
-            </div> */}
+
             </LinearGradient>
         </View>
     );
@@ -81,28 +61,56 @@ const styles = StyleSheet.create({
     balanceCardContainer: {
         position: "relative",
         width: '100%',
-        height: 140,
+        height: 160,
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
-        padding: 5,
+        padding: 30,
         overflow: 'hidden',
         //backgroundColor: 'red',
     },
     balanceCardTitleContainer: {
         position: "absolute",
         top: 20,
-        left: 28,
+        left: 30,
         zIndex: 2,
     },
     balanceCardTitleContent: {
         fontFamily: 'Nunito-ExtraBold',
-        fontSize: 22,
+        fontSize: 20,
+        color: "#fff",
+    },
+    balanceCardBody: {
+        position: "relative",
+        width: '100%',
+        height: 'auto',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+
+    },
+    balanceCardValueContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-end',
+    },
+    balanceCarBadgeContent: {
+        fontFamily: 'Nunito-Regular',
+        fontSize: 18,
+        color: "#fff",
+        marginRight: 5,
+    },
+    balanceCardValueContent: {
+        marginBottom: -4,
+        fontFamily: 'Nunito-Bold',
+        fontSize: 28,
         color: "#fff",
     },
     balanceCardFlag: {
+        position: "absolute",
+        bottom: -20,
+        right: 0,
         width: 60,
         height: 60,
-        margin: 20
     }
 });
 

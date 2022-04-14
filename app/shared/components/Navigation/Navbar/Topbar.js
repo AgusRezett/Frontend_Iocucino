@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         paddingRight: 20,
     },
     navbarBrand: {
-        fontSize: 38,
+        fontSize: 36,
         color: '#ffc000',
         fontFamily: 'RooneySans-Bold',
     }

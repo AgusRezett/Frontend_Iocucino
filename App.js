@@ -10,6 +10,9 @@ import AppLoading from 'expo-app-loading';
 // Stacks
 import ApplicationContent from './app/stacks/ApplicationContent';
 
+// Hooks
+import { LangProvider } from './app/hooks/useContext/LangContext';
+
 export default function App() {
     const [fontsLoaded] = useFonts({
         /* 'RooneySans-Light': require('./assets/fonts/rooneysans/RooneySansLight.woff'),
@@ -27,7 +30,9 @@ export default function App() {
     } else {
         return (
             <>
-                <ApplicationContent />
+                <LangProvider>
+                    <ApplicationContent />
+                </LangProvider>
             </>
         );
     }

@@ -1,5 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
@@ -12,7 +13,7 @@ import Settings from '../screens/Settings';
 import Topbar from '../shared/components/Navigation/Navbar/Topbar';
 import Bottombar from '../shared/components/Navigation/Navbar/Bottombar';
 
-const Tab = createMaterialTopTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 export default function ApplicationContent() {
     const [fontsLoaded] = useFonts({
@@ -21,6 +22,8 @@ export default function ApplicationContent() {
         'RooneySans-Medium': require('./assets/fonts/rooneysans/RooneySansMedium.woff'),*/
         'RooneySans-Bold': require('../../assets/fonts/rooneysans/RooneySans-Bold.ttf'),
         /* 'RooneySans-Black': require('./assets/fonts/rooneysans/RooneySansBlk.woff'),  */
+        'Nunito-Regular': require('../../assets/fonts/nunito/Nunito-Regular.ttf'),
+        'Nunito-Bold': require('../../assets/fonts/nunito/Nunito-Bold.ttf'),
     });
 
     if (!fontsLoaded) {
@@ -29,11 +32,35 @@ export default function ApplicationContent() {
         return (
             <NavigationContainer>
                 <Topbar />
-                <Tab.Navigator initialRouteName="Home" tabBarPosition="bottom">
-                    <Tab.Screen name="Home" component={Home} />
-                    <Tab.Screen name="Settings" component={Settings} />
+                <Tab.Navigator
+                    initialRouteName="Home"
+                    tabBarPosition="bottom"
+                    // bottombar istabbar and shouls have a key prop
+                    // tabBar={(props) => <Bottombar key={props.index} {...props} />}
+                    screenOptions={{ headerShown: false }}
+                    activeColor="#ffc000"
+                    barStyle={{ backgroundColor: '#fff' }}
+                >
+                    <Tab.Screen
+                        name="Inicio"
+                        component={Home}
+                        options={{
+                            tabBarLabel: 'Inicio',
+                            tabBarIcon: ({ color }) => (
+                                <MaterialCommunityIcons name="home" color={color} size={26} />
+                            ),
+                        }} />
+                    <Tab.Screen
+                        name="Configuracion"
+                        component={Settings}
+                        options={{
+                            tabBarLabel: 'Configuracion',
+                            tabBarIcon: ({ color }) => (
+                                <MaterialCommunityIcons name="cog" color={color} size={26} />
+                            ),
+                        }} />
                 </Tab.Navigator>
-                <Bottombar />
+                {/* <Bottombar /> */}
             </NavigationContainer>
         );
     }

@@ -1,3 +1,26 @@
+
+
+export const storageSetItem = async (key, value) => {
+    try {
+        await AsyncStorage.setItem(key, value);
+    } catch (error) {
+        // Error saving data
+    }
+};
+
+export const storageGetItem = async (key) => {
+    // get Data from Storage
+    try {
+        const data = await AsyncStorage.getItem(key);
+        if (data !== null) {
+            console.log(data);
+            return data;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 // Flags
 Arg = '../../assets/svgs/flags/ar.svg';
 import Bra from '../../assets/svgs/flags/br.svg';

@@ -11,8 +11,8 @@ export const getSelectedBadges = (setSelectedBadges) => {
             value: "25",
         },
         {
-            id: 1,
-            value: "11",
+            id: 0,
+            value: "0.024857",
         },
     ]);
 }
