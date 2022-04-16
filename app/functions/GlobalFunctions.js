@@ -1,25 +1,6 @@
 
-
-export const storageSetItem = async (key, value) => {
-    try {
-        await AsyncStorage.setItem(key, value);
-    } catch (error) {
-        // Error saving data
-    }
-};
-
-export const storageGetItem = async (key) => {
-    // get Data from Storage
-    try {
-        const data = await AsyncStorage.getItem(key);
-        if (data !== null) {
-            console.log(data);
-            return data;
-        }
-    } catch (error) {
-        console.log(error);
-    }
-};
+// Components
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Flags
 Arg = '../../assets/svgs/flags/ar.svg';
@@ -36,6 +17,27 @@ import Jpn from '../../assets/svgs/flags/jp.svg';
 import Rus from '../../assets/svgs/flags/ru.svg';
 import Sau from '../../assets/svgs/flags/sa.svg';
 Usa = '../../assets/svgs/flags/us.svg';
+
+
+export const AsyncSetSessionToken = async (token) => {
+    try {
+        await AsyncStorage.setItem('sessionToken', token);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const AsyncGetSessionToken = async () => {
+    try {
+        let result;
+        await AsyncStorage.getItem('sessionToken').then((token) => {
+            result = token;
+        });
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export const badgeDictionary = [
     {

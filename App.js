@@ -1,19 +1,40 @@
-/* import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native'; */
+
 
 /* import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native'; */
 
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
+
+// Components
+//import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+// Functions
+import { AsyncSetSessionToken, AsyncGetSessionToken } from './app/functions/GlobalFunctions';
 
 // Stacks
 import ApplicationContent from './app/stacks/ApplicationContent';
 
 // Hooks
 import { LangProvider } from './app/hooks/useContext/LangContext';
+import Login from './app/screens/Login';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
+    const [sessionToken, setSessionToken] = useState("")
+
+    useEffect(() => {
+        console.log("sessionToken: ", sessionToken);
+        AsyncGetSessionToken().then(value => {
+            setSessionToken(value);
+        });
+    }, [])
+
     const [fontsLoaded] = useFonts({
         /* 'RooneySans-Light': require('./assets/fonts/rooneysans/RooneySansLight.woff'),
         'RooneySans': require('./assets/fonts/rooneysans/RooneySansRegular.woff'),
@@ -29,11 +50,22 @@ export default function App() {
         return <AppLoading />;
     } else {
         return (
-            <>
+            <NavigationContainer >
                 <LangProvider>
-                    <ApplicationContent />
+                    <Stack.Navigator
+                        initialRouteName="Login"
+                        screenOptions={{ headerShown: false }}
+                    >
+                        <Stack.Screen name="Login" component={Login} />
+                        <Stack.Screen name="ApplicationContent" component={ApplicationContent} />
+                    </Stack.Navigator>
+                    {/* {!sessionToken ?
+                        <Login />
+                        :
+                        <ApplicationContent />
+                    } */}
                 </LangProvider>
-            </>
+            </NavigationContainer>
         );
     }
 }

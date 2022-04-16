@@ -9,7 +9,6 @@ import EnglishUsLang from '../../languages/en-US.json';
 import SpanishArLang from '../../languages/es-AR.json';
 
 // Functions
-import { storageGetItem, storageSetItem } from '../../functions/GlobalFunctions';
 
 export const langContext = createContext();
 
@@ -27,14 +26,14 @@ export const LangProvider = ({ children }) => {
             setLocale('es-AR');
         }
     }).catch(error => {
-        console.log(error);
+        //console.log(error);
     });
 
     const changeLang = (newLang) => {
         if (typeof newLang === "object") {
             newLang = newLang.code;
         }
-        console.log(newLang);
+        //console.log(newLang);
         //console.log("newLang: ", newLang);
         //await AsyncStorage.setItem('lang-code', newLang);
         switch (newLang) {
@@ -45,7 +44,7 @@ export const LangProvider = ({ children }) => {
             case 'en-US':
                 setLanguage(EnglishUsLang);
                 setLocale('en-US');
-                console.log(locale);
+                //console.log(locale);
                 break;
             default:
                 setLanguage(SpanishArLang);
@@ -55,9 +54,9 @@ export const LangProvider = ({ children }) => {
     };
 
     if (firstFetch) {
-        console.log("locale1: ", locale);
+        //console.log("locale1: ", locale);
         changeLang("en-US");
-        console.log("locale2: ", locale);
+        //console.log("locale2: ", locale);
 
         setFirstFetch(false);
     }

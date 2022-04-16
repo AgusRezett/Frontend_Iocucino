@@ -30,10 +30,10 @@ export default function ApplicationContent() {
         return <AppLoading />;
     } else {
         return (
-            <NavigationContainer>
+            <>
                 <Topbar />
                 <Tab.Navigator
-                    initialRouteName="Home"
+                    initialRouteName="Inicio"
                     tabBarPosition="bottom"
                     // bottombar istabbar and shouls have a key prop
                     // tabBar={(props) => <Bottombar key={props.index} {...props} />}
@@ -61,7 +61,7 @@ export default function ApplicationContent() {
                         }} />
                 </Tab.Navigator>
                 {/* <Bottombar /> */}
-            </NavigationContainer>
+            </>
         );
     }
 }
