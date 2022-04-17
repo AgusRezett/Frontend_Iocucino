@@ -381,7 +381,7 @@ const RegisterForm = ({ formActions }) => {
                                 onPressIn={() => { setNameActive(true) }}
                                 autoCapitalize='words'
                                 value={values.name}
-                                style={nameActive ? styles.formInputActive : styles.formInput}
+                                style={[nameActive ? styles.formInputActive : styles.formInput, errors.name && touched.name ? { color: "#e81f37" } : null]}
                             />
                             {(errors.name && touched.name) &&
                                 <Text style={styles.errorText}>{errors.name}</Text>
@@ -395,7 +395,7 @@ const RegisterForm = ({ formActions }) => {
                                 onPressIn={() => { setSurnameActive(true) }}
                                 autoCapitalize='words'
                                 value={values.surname}
-                                style={surnameActive ? styles.formInputActive : styles.formInput}
+                                style={[surnameActive ? styles.formInputActive : styles.formInput, errors.surname && touched.surname ? { color: "#e81f37" } : null]}
                             />
                             {(errors.surname && touched.surname) &&
                                 <Text style={styles.errorText}>{errors.surname}</Text>
@@ -413,7 +413,7 @@ const RegisterForm = ({ formActions }) => {
                                 autoCorrect={false}
                                 autoCompleteType='email'
                                 value={values.email.trim()}
-                                style={emailActive ? styles.formInputActive : styles.formInput}
+                                style={[emailActive ? styles.formInputActive : styles.formInput, errors.email && touched.email ? { color: "#e81f37" } : null]}
                             />
                             {(errors.email && touched.email) &&
                                 <Text style={styles.errorText}>{errors.email}</Text>
@@ -428,7 +428,7 @@ const RegisterForm = ({ formActions }) => {
                                     onBlur={() => { handleBlur('password'), setPasswordActive(false), setFieldTouched('password') }}
                                     onPressIn={() => { setPasswordActive(true) }}
                                     value={values.password.trim()}
-                                    style={passwordActive ? styles.formInputPasswordActive : styles.formInputPassword}
+                                    style={[passwordActive ? styles.formInputPasswordActive : styles.formInputPassword, errors.password && touched.password ? { color: "#e81f37" } : null]}
                                 />
                                 <Ionicons
                                     style={[passwordActive ? { borderBottomColor: '#ffc000' } : { borderBottomColor: '#888a91' }, { borderBottomWidth: 1, height: 40, width: 30, paddingTop: 7 }]}
@@ -453,7 +453,7 @@ const RegisterForm = ({ formActions }) => {
                                 onBlur={() => { handleBlur('passwordConfirm'), setPasswordConfirmActive(false), setFieldTouched('passwordConfirm') }}
                                 onPressIn={() => { setPasswordConfirmActive(true) }}
                                 value={values.passwordConfirm.trim()}
-                                style={passwordConfirmActive ? styles.formInputActive : styles.formInput}
+                                style={[passwordConfirmActive ? styles.formInputActive : styles.formInput, errors.passwordConfirm && touched.passwordConfirm ? { color: "#e81f37" } : null]}
                             />
                             {(errors.passwordConfirm && touched.passwordConfirm) &&
                                 errors.passwordConfirm != "a" &&
