@@ -14,7 +14,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Functions
-import { AsyncSetSessionToken, AsyncGetSessionToken } from './app/functions/GlobalFunctions';
+import { AsyncGetSessionToken } from './app/functions/GlobalFunctions';
 
 // Stacks
 import ApplicationContent from './app/stacks/ApplicationContent';
@@ -29,7 +29,6 @@ export default function App() {
     const [sessionToken, setSessionToken] = useState("")
 
     useEffect(() => {
-        console.log("sessionToken: ", sessionToken);
         AsyncGetSessionToken().then(value => {
             setSessionToken(value);
         });
@@ -53,7 +52,7 @@ export default function App() {
             <NavigationContainer >
                 <LangProvider>
                     <Stack.Navigator
-                        initialRouteName="Login"
+                        initialRouteName={sessionToken ? 'ApplicationContent' : 'Login'}
                         screenOptions={{ headerShown: false }}
                     >
                         <Stack.Screen name="Login" component={Login} />
