@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 // Components
-import { StyleSheet, View, Text, TouchableOpacity, Button, TextInput, Vibration } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, Vibration, Animated } from 'react-native';
 //import { Form, Item, Label, Input } from "native-base";
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -11,12 +11,29 @@ import * as yup from 'yup'
 // Functions
 import { AsyncSetSessionToken } from '../../../functions/GlobalFunctions';
 
-export const LoginForm = () => {
+export const LoginForm = ({ navigation }) => {
     const [emailActive, setEmailActive] = useState(false);
     const [passwordActive, setPasswordActive] = useState(false);
     const [passwordVisible, setPasswordVisible] = useState(false);
 
-    const navigation = useNavigation();
+    const topEmailAnim = useRef(new Animated.Value(8)).current;
+    const topPasswordAnim = useRef(new Animated.Value(8)).current;
+    const moveUp = (type) => {
+        let anim = type === 'email' ? topEmailAnim : topPasswordAnim;
+        Animated.timing(anim, {
+            toValue: -20,
+            duration: 200,
+            useNativeDriver: false
+        }).start();
+    }
+    const moveDown = (type) => {
+        let anim = type === 'email' ? topEmailAnim : topPasswordAnim;
+        Animated.timing(anim, {
+            toValue: 8,
+            duration: 200,
+            useNativeDriver: false
+        }).start();
+    }
 
     const logIn = (values) => {
         Vibration.vibrate(20);
@@ -53,12 +70,18 @@ export const LoginForm = () => {
                     >
                         {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldTouched, isValid, }) => (
                             <View style={styles.inputsContainer}>
-                                <View style={[styles.inputContainer]}>
-                                    <Text style={values.email.length > 0 ? emailActive ? styles.inputLabelActive : styles.inputLabelUnactive : styles.inputLabel}>Email</Text>
+                                <View style={styles.inputContainer}>
+                                    <Animated.Text style={[
+                                        values.email.length > 0 ? emailActive ? styles.inputLabelActive : styles.inputLabelUnactive : styles.inputLabel,
+                                        { top: topEmailAnim }
+                                    ]}
+                                    >
+                                        Email
+                                    </Animated.Text>
                                     <TextInput
                                         onChangeText={handleChange('email')}
-                                        onBlur={() => { handleBlur('email'), setEmailActive(false), setFieldTouched('email') }}
-                                        onPressIn={() => { setEmailActive(true) }}
+                                        onBlur={() => { handleBlur('email'), setEmailActive(false), setFieldTouched('email'), values.email.length <= 0 ? moveDown('email') : moveUp('email') }}
+                                        onPressIn={() => { setEmailActive(true), moveUp('email') }}
                                         textContentType='emailAddress'
                                         keyboardType='email-address'
                                         autoCapitalize='none'
@@ -71,14 +94,21 @@ export const LoginForm = () => {
                                         <Text style={styles.errorText}>{errors.email}</Text>
                                     }
                                 </View>
-                                <View style={[styles.inputContainer, { marginTop: 50 }]}>
-                                    <Text style={values.password.length > 0 ? passwordActive ? styles.inputLabelActive : styles.inputLabelUnactive : styles.inputLabel}>Contraseña</Text>
+                                <View style={[styles.inputContainer]}>
+                                    <Animated.Text
+                                        style={[
+                                            values.password.length > 0 ? passwordActive ? styles.inputLabelActive : styles.inputLabelUnactive : styles.inputLabel,
+                                            { top: topPasswordAnim }
+                                        ]}
+                                    >
+                                        Contraseña
+                                    </Animated.Text>
                                     <View style={[styles.passwordContainer]}>
                                         <TextInput
                                             secureTextEntry={!passwordVisible ? true : false}
                                             onChangeText={handleChange('password')}
-                                            onBlur={() => { handleBlur('password'), setPasswordActive(false), setFieldTouched('password') }}
-                                            onPressIn={() => { setPasswordActive(true) }}
+                                            onBlur={() => { handleBlur('password'), setPasswordActive(false), setFieldTouched('password'), values.password.length <= 0 ? moveDown('password') : moveUp('password') }}
+                                            onPressIn={() => { setPasswordActive(true), moveUp("password") }}
                                             value={values.password.trim()}
                                             style={passwordActive ? styles.formInputPasswordActive : styles.formInputPassword}
                                         />
@@ -116,7 +146,7 @@ export const LoginForm = () => {
     );
 }
 
-export const RegisterForm = () => {
+export const RegisterForm = ({ navigation }) => {
     const [nameActive, setNameActive] = useState(false);
     const [surnameActive, setSurnameActive] = useState(false);
     const [emailActive, setEmailActive] = useState(false);
@@ -124,13 +154,74 @@ export const RegisterForm = () => {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [passwordConfirmActive, setPasswordConfirmActive] = useState(false);
 
-    const navigation = useNavigation();
-
     const register = (values) => {
         Vibration.vibrate(20);
         console.log(values)
         AsyncSetSessionToken("patata");
         navigation.navigate('ApplicationContent');
+    }
+
+    const topNameAnim = useRef(new Animated.Value(8)).current;
+    const topSurnameAnim = useRef(new Animated.Value(8)).current;
+    const topEmailAnim = useRef(new Animated.Value(8)).current;
+    const topPasswordAnim = useRef(new Animated.Value(8)).current;
+    const topPasswordConfirmAnim = useRef(new Animated.Value(8)).current;
+
+    const moveUp = (type) => {
+        let anim;
+        switch (type) {
+            case 'name':
+                anim = topNameAnim;
+                break
+            case 'surname':
+                anim = topSurnameAnim;
+                break
+            case 'email':
+                anim = topEmailAnim;
+                break
+            case 'password':
+                anim = topPasswordAnim;
+                break
+            case 'passwordConfirm':
+                anim = topPasswordConfirmAnim;
+                break
+            default:
+                break;
+        }
+
+        Animated.timing(anim, {
+            toValue: -20,
+            duration: 200,
+            useNativeDriver: false
+        }).start();
+    }
+
+    const moveDown = (type) => {
+        let anim;
+        switch (type) {
+            case 'name':
+                anim = topNameAnim;
+                break
+            case 'surname':
+                anim = topSurnameAnim;
+                break
+            case 'email':
+                anim = topEmailAnim;
+                break
+            case 'password':
+                anim = topPasswordAnim;
+                break
+            case 'passwordConfirm':
+                anim = topPasswordConfirmAnim;
+                break
+            default:
+                break;
+        }
+        Animated.timing(anim, {
+            toValue: 8,
+            duration: 200,
+            useNativeDriver: false
+        }).start();
     }
 
     /* const handleKeyPress = ({ nativeEvent: { key: keyValue } }) => {
@@ -168,8 +259,80 @@ export const RegisterForm = () => {
             .oneOf([yup.ref('password'), null], 'Las contraseñas no coinciden'),
     })
 
+    const labelStyles = (label, value, active, error, touched) => {
+        let anim;
+        switch (label) {
+            case 'name':
+                anim = topNameAnim;
+                break
+            case 'surname':
+                anim = topSurnameAnim;
+                break
+            case 'email':
+                anim = topEmailAnim;
+                break
+            case 'password':
+                anim = topPasswordAnim;
+                break
+            case 'passwordConfirm':
+                anim = topPasswordConfirmAnim;
+                break
+            default:
+                break;
+        }
+
+        return [{
+            position: 'absolute',
+            fontSize: value.length <= 0 ? active ? 16 : 18 : 16,
+            color: active ? '#ffc000' : error && value.length > 0 ? '#e81f37' : touched && value.length > 0 ? '#0ec45a' : '#888a91',
+            //color: active ? '#ffc000' : '#888a91',
+            fontFamily: active || value.length > 0 ? 'Nunito-Bold' : 'Nunito-Regular',
+        }, {
+            top: anim,
+        }]
+    }
+
+    const inputStyles = (active) => {
+        return [{
+            width: '100%',
+            height: 40,
+            borderBottomColor: active ? '#ffc000' : '#888a91',
+            borderBottomWidth: 1,
+            fontSize: 18,
+            fontFamily: 'Nunito-Regular',
+            color: "#212529",
+        }]
+    }
+
+    const blurInput = (label, value) => {
+        switch (label) {
+            case 'name':
+                setNameActive(false)
+                value.length <= 0 ? moveDown('name') : moveUp('name')
+                break;
+            case 'surname':
+                setSurnameActive(false)
+                value.length <= 0 ? moveDown('surname') : moveUp('surname')
+                break;
+            case 'email':
+                setEmailActive(false)
+                value.length <= 0 ? moveDown('email') : moveUp('email')
+                break;
+            case 'password':
+                setPasswordActive(false)
+                value.length <= 0 ? moveDown('password') : moveUp('password')
+                break;
+            case 'passwordConfirm':
+                setPasswordConfirmActive(false)
+                value.length <= 0 ? moveDown('passwordConfirm') : moveUp('passwordConfirm')
+                break;
+            default:
+                break;
+        }
+    }
+
     return (
-        <View style={styles.loginView}>
+        <View style={styles.loginView} >
             <View style={styles.formContainer}>
                 <View style={styles.formContent}>
                     <View>
@@ -199,60 +362,60 @@ export const RegisterForm = () => {
                     >
                         {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldTouched, isValid, }) => (
                             <View style={styles.inputsContainer}>
-                                <View style={[styles.inputContainer, { marginTop: 40 }]}>
-                                    <Text style={values.name.length > 0 ? nameActive ? styles.inputLabelActive : styles.inputLabelUnactive : styles.inputLabel}>Nombre</Text>
+                                <View style={[styles.inputContainer]}>
+                                    <Animated.Text style={labelStyles("name", values.name, nameActive, errors.name, touched.name)}>Nombre</Animated.Text>
                                     <TextInput
                                         onChangeText={handleChange('name')}
-                                        onBlur={() => { handleBlur('name'), setNameActive(false), setFieldTouched('name') }}
-                                        onPressIn={() => { setNameActive(true) }}
+                                        onBlur={() => { handleBlur('name'), setFieldTouched('name'), blurInput("name", values.name) }}
+                                        onPressIn={() => { setNameActive(true), moveUp('name') }}
                                         autoCapitalize='words'
                                         value={values.name}
-                                        style={[nameActive ? styles.formInputActive : styles.formInput, errors.name && touched.name ? { color: "#e81f37" } : null]}
+                                        style={inputStyles(nameActive, errors.name && touched.name)}
                                     />
                                     {(errors.name && touched.name) &&
                                         <Text style={styles.errorText}>{errors.name}</Text>
                                     }
                                 </View>
-                                <View style={[styles.inputContainer, { marginTop: 40 }]}>
-                                    <Text style={values.surname.length > 0 ? surnameActive ? styles.inputLabelActive : styles.inputLabelUnactive : styles.inputLabel}>Apellido</Text>
+                                <View style={[styles.inputContainer]}>
+                                    <Animated.Text style={labelStyles("surname", values.surname, surnameActive, errors.surname, touched.surname)}>Apellido</Animated.Text>
                                     <TextInput
                                         onChangeText={handleChange('surname')}
-                                        onBlur={() => { handleBlur('surname'), setSurnameActive(false), setFieldTouched('surname') }}
-                                        onPressIn={() => { setSurnameActive(true) }}
+                                        onBlur={() => { handleBlur('surname'), setFieldTouched('surname'), blurInput("surname", values.surname) }}
+                                        onPressIn={() => { setSurnameActive(true), moveUp('surname') }}
                                         autoCapitalize='words'
                                         value={values.surname}
-                                        style={[surnameActive ? styles.formInputActive : styles.formInput, errors.surname && touched.surname ? { color: "#e81f37" } : null]}
+                                        style={inputStyles(surnameActive, errors.surname && touched.surname)}
                                     />
                                     {(errors.surname && touched.surname) &&
                                         <Text style={styles.errorText}>{errors.surname}</Text>
                                     }
                                 </View>
-                                <View style={[styles.inputContainer, { marginTop: 40 }]}>
-                                    <Text style={values.email.length > 0 ? emailActive ? styles.inputLabelActive : styles.inputLabelUnactive : styles.inputLabel}>Email</Text>
+                                <View style={[styles.inputContainer]}>
+                                    <Animated.Text style={labelStyles("email", values.email, emailActive, errors.email, touched.email)}>Correo electrónico</Animated.Text>
                                     <TextInput
                                         onChangeText={handleChange('email')}
-                                        onBlur={() => { handleBlur('email'), setEmailActive(false), setFieldTouched('email') }}
-                                        onPressIn={() => { setEmailActive(true) }}
+                                        onBlur={() => { handleBlur('email'), setFieldTouched('email'), blurInput("email", values.email) }}
+                                        onPressIn={() => { setEmailActive(true), moveUp('email') }}
                                         textContentType='emailAddress'
                                         keyboardType='email-address'
                                         autoCapitalize='none'
                                         autoCorrect={false}
                                         autoCompleteType='email'
                                         value={values.email.trim()}
-                                        style={[emailActive ? styles.formInputActive : styles.formInput, errors.email && touched.email ? { color: "#e81f37" } : null]}
+                                        style={inputStyles(emailActive, errors.email && touched.email)}
                                     />
                                     {(errors.email && touched.email) &&
                                         <Text style={styles.errorText}>{errors.email}</Text>
                                     }
                                 </View>
-                                <View style={[styles.inputContainer, { marginTop: 40 }]}>
-                                    <Text style={values.password.length > 0 ? passwordActive ? styles.inputLabelActive : styles.inputLabelUnactive : styles.inputLabel}>Contraseña</Text>
+                                <View style={[styles.inputContainer]}>
+                                    <Animated.Text style={labelStyles("password", values.password, passwordActive, errors.password, touched.password)}>Contraseña</Animated.Text>
                                     <View style={[styles.passwordContainer]}>
                                         <TextInput
                                             secureTextEntry={!passwordVisible ? true : false}
                                             onChangeText={handleChange('password')}
-                                            onBlur={() => { handleBlur('password'), setPasswordActive(false), setFieldTouched('password') }}
-                                            onPressIn={() => { setPasswordActive(true) }}
+                                            onBlur={() => { handleBlur('password'), setFieldTouched('password'), blurInput("password", values.password) }}
+                                            onPressIn={() => { setPasswordActive(true), moveUp('password') }}
                                             value={values.password.trim()}
                                             style={[passwordActive ? styles.formInputPasswordActive : styles.formInputPassword, errors.password && touched.password ? { color: "#e81f37" } : null]}
                                         />
@@ -271,15 +434,15 @@ export const RegisterForm = () => {
                                         <Text style={styles.errorText}>{errors.password}</Text>
                                     }
                                 </View>
-                                <View style={[styles.inputContainer, { marginTop: 40 }]}>
-                                    <Text style={values.passwordConfirm.length > 0 ? passwordConfirmActive ? styles.inputLabelActive : styles.inputLabelUnactive : styles.inputLabel}>Confirmar contraseña</Text>
+                                <View style={[styles.inputContainer]}>
+                                    <Animated.Text style={labelStyles("passwordConfirm", values.passwordConfirm, passwordConfirmActive, errors.passwordConfirm, touched.passwordConfirm)}>Confirmar contraseña</Animated.Text>
                                     <TextInput
                                         secureTextEntry={!passwordVisible ? true : false}
                                         onChangeText={handleChange('passwordConfirm')}
-                                        onBlur={() => { handleBlur('passwordConfirm'), setPasswordConfirmActive(false), setFieldTouched('passwordConfirm') }}
-                                        onPressIn={() => { setPasswordConfirmActive(true) }}
+                                        onBlur={() => { handleBlur('passwordConfirm'), setFieldTouched('passwordConfirm'), blurInput("passwordConfirm", values.passwordConfirm) }}
+                                        onPressIn={() => { setPasswordConfirmActive(true), moveUp('passwordConfirm') }}
                                         value={values.passwordConfirm.trim()}
-                                        style={[passwordConfirmActive ? styles.formInputActive : styles.formInput, errors.passwordConfirm && touched.passwordConfirm ? { color: "#e81f37" } : null]}
+                                        style={inputStyles(passwordConfirmActive, errors.passwordConfirm && touched.passwordConfirm)}
                                     />
                                     {(errors.passwordConfirm && touched.passwordConfirm) &&
                                         errors.passwordConfirm != "a" &&
@@ -301,7 +464,7 @@ export const RegisterForm = () => {
                     </View>
                 </View>
             </View>
-        </View>
+        </View >
     );
 }
 
@@ -360,6 +523,7 @@ const styles = StyleSheet.create({
     inputContainer: {
         width: '100%',
         height: 'auto',
+        marginTop: 40,
     },
     inputLabel: {
         position: 'absolute',
@@ -370,14 +534,14 @@ const styles = StyleSheet.create({
     },
     inputLabelActive: {
         position: 'absolute',
-        top: -20,
+        // top: -20,
         fontSize: 16,
         color: '#ffc000',
         fontFamily: 'Nunito-Bold',
     },
     inputLabelUnactive: {
         position: 'absolute',
-        top: -20,
+        // top: -20,
         fontSize: 16,
         color: '#888a91',
         fontFamily: 'Nunito-Bold',
