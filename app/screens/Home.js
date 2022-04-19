@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, ScrollView, View, Dimensions } from 'react-native';
+import { StyleSheet, Text, ScrollView, RefreshControl, View, Dimensions } from 'react-native';
 
 //Components
 import BalanceCard from '../shared/components/home/BalanceCard';
@@ -13,6 +13,14 @@ import { getSelectedBadges } from '../functions/HomeFunctions';
 
 export default function Home() {
     const [selectedBadges, setSelectedBadges] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 1500);
+    }, [refreshing]);
 
     useEffect(() => {
         getSelectedBadges(setSelectedBadges);
@@ -20,7 +28,18 @@ export default function Home() {
 
     return (
         <View style={styles.container}>
-            <ScrollView style={styles.scroller} showsVerticalScrollIndicator={false}>
+            <ScrollView
+                style={styles.scroller}
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={() => {
+                            onRefresh();
+                        }}
+                    />
+                }
+            >
                 <View style={styles.balanceCardsList}>
                     {selectedBadges &&
                         selectedBadges.map((badge) => (
