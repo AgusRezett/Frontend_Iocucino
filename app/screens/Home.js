@@ -9,8 +9,6 @@ import BalanceCard from '../shared/components/home/BalanceCard';
 // Funtions
 import { getSelectedBadges } from '../functions/HomeFunctions';
 
-
-
 export default function Home() {
     const [selectedBadges, setSelectedBadges] = useState([]);
     const [refreshing, setRefreshing] = useState(false);

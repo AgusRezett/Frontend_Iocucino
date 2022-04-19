@@ -1,4 +1,6 @@
 import { StyleSheet, Image, Text, View, Dimensions } from 'react-native';
+
+// Components
 import { LinearGradient } from 'expo-linear-gradient';
 
 // Styles
@@ -7,7 +9,12 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { badgeDictionary } from '../../../functions/GlobalFunctions';
 
 export default function BalanceCard({ badgeId, value }) {
-    const badge = badgeDictionary[badgeId];
+    const flagProps = {
+        width: 60,
+        height: 60,
+    };
+
+    const badge = badgeDictionary(flagProps)[badgeId];
 
     return (
         <View style={styles.balanceCardSpace}>
@@ -31,11 +38,16 @@ export default function BalanceCard({ badgeId, value }) {
                             <Text style={styles.balanceCarBadgeContent}>{badge.badge}</Text>
                             <Text style={styles.balanceCardValueContent}>{value}</Text>
                         </View>
-                        <Image
+                        {/* <ArgFlag style={styles.balanceCardFlag} /> */}
+                        <View style={styles.balanceCardFlagContainer}>
+                            {badge.flag}
+                        </View>
+
+                        {/* <Image
                             style={styles.balanceCardFlag}
                             source={require(`../../../../assets/svgs/shield.png`)}
                         // source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
-                        />
+                        /> */}
                         {/* <img src={badgeDictionary[badgeId].flag} alt="" /> */}
                     </View>
                     <Text style={{ width: "100%", textAlign: "left", fontFamily: "Nunito-Regular", color: "#fff" }}>disponibles</Text>
@@ -46,7 +58,6 @@ export default function BalanceCard({ badgeId, value }) {
     );
 }
 
-const screenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     balanceCardSpace: {
         width: '100%',
@@ -86,7 +97,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-end',
-
     },
     balanceCardValueContainer: {
         flexDirection: 'row',
@@ -105,12 +115,21 @@ const styles = StyleSheet.create({
         fontSize: 28,
         color: "#fff",
     },
-    balanceCardFlag: {
+    balanceCardFlagContainer: {
+        width: 60,
+        height: 60,
         position: "absolute",
         bottom: -20,
         right: 0,
-        width: 60,
-        height: 60,
+        borderRadius: 60,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     }
 });
 

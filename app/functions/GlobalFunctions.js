@@ -3,20 +3,20 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Flags
-Arg = '../../assets/svgs/flags/ar.svg';
+import Arg from '../../assets/svgs/flags/ar.svg';
 import Bra from '../../assets/svgs/flags/br.svg';
-Btc = '../../assets/svgs/flags/btc.svg';
+import Btc from '../../assets/svgs/flags/btc.svg';
 import Chn from '../../assets/svgs/flags/cn.svg';
 import Esp from '../../assets/svgs/flags/es.svg';
 import Deu from '../../assets/svgs/flags/de.svg';
-Eur = '../../assets/svgs/flags/european_union.svg';
+import Eur from '../../assets/svgs/flags/european_union.svg';
 import Fra from '../../assets/svgs/flags/fr.svg';
 import Gbr from '../../assets/svgs/flags/gb.svg';
 import Ita from '../../assets/svgs/flags/it.svg';
 import Jpn from '../../assets/svgs/flags/jp.svg';
 import Rus from '../../assets/svgs/flags/ru.svg';
 import Sau from '../../assets/svgs/flags/sa.svg';
-Usa = '../../assets/svgs/flags/us.svg';
+import Usa from '../../assets/svgs/flags/us.svg';
 
 
 export const AsyncSetSessionToken = async (token) => {
@@ -39,36 +39,38 @@ export const AsyncGetSessionToken = async () => {
     }
 }
 
-export const badgeDictionary = [
-    {
-        title: 'currency.title.bitcoin',
-        flag: Btc,
-        badge: 'BTC',
-        color: "#ffae00",
-        backgroundClass: "btc-flag",
-    },
-    {
-        title: 'currency.title.american-dollar',
-        flag: Usa,
-        badge: 'US$',
-        color: "#2da06e",
-        backgroundClass: "usd-flag",
-    },
-    {
-        title: 'currency.title.euro',
-        flag: Eur,
-        badge: '€',
-        color: "#004aa2",
-        backgroundClass: "eur-flag"
-    },
-    {
-        title: 'currency.title.argentine-peso',
-        flag: Arg,
-        badge: 'AR$',
-        color: "#338af3",
-        backgroundClass: "arg-flag"
-    },
-];
+export const badgeDictionary = (flagProps = null) => {
+    return [
+        {
+            title: 'currency.title.bitcoin',
+            flag: <Btc {...flagProps} />,
+            badge: 'BTC',
+            color: "#ffae00",
+            backgroundClass: "btc-flag",
+        },
+        {
+            title: 'currency.title.american-dollar',
+            flag: <Usa {...flagProps} />,
+            badge: 'US$',
+            color: "#2da06e",
+            backgroundClass: "usd-flag",
+        },
+        {
+            title: 'currency.title.euro',
+            flag: <Eur {...flagProps} />,
+            badge: '€',
+            color: "#004aa2",
+            backgroundClass: "eur-flag"
+        },
+        {
+            title: 'currency.title.argentine-peso',
+            flag: <Arg {...flagProps} />,
+            badge: 'AR$',
+            color: "#338af3",
+            backgroundClass: "arg-flag"
+        }
+    ]
+};
 
 export const nationalitiesFlagsLang = [
     {
