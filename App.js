@@ -52,7 +52,8 @@ export default function App() {
             <NavigationContainer >
                 <LangProvider>
                     <Stack.Navigator
-                        initialRouteName={sessionToken ? 'ApplicationContent' : 'Login'}
+                        //initialRouteName={sessionToken ? 'ApplicationContent' : 'Login'}
+                        initialRouteName={'ApplicationContent'}
                         screenOptions={{ headerShown: false }}
                     >
                         <Stack.Screen name="Login" component={Login} />

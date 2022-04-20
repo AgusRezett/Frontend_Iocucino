@@ -1,7 +1,7 @@
 import { getPrincipalCurrency, getTokenPrice, nationalBadgeDictionary } from "./GlobalFunctions";
 
-export const getSelectedBadges = (setSelectedBadges) => {
-    setSelectedBadges([
+export const getSelectedBadges = () => {
+    return [
         {
             id: 3,
             value: "9600",
@@ -11,51 +11,49 @@ export const getSelectedBadges = (setSelectedBadges) => {
             value: "25",
         },
         {
-            id: 0,
-            value: "0.024857",
-        },
-    ]);
-}
-
-/* export const getAllAccounts = () => {
-    return [
-        {
             id: 1,
-            name: "Brubank",
-            logo: "asd",
-        }
-    ]
-} */
+            value: "164",
+        },
+    ];
+}
 
 export const getLinkedAccounts = () => {
     return [
         {
             id: 1,
             name: "Brubank",
-            balance: "1600",
+            balance: "6.337",
             currency: "ARS",
             color: "#6440D9",
+            performance: "8.00%",
+            performanceStatus: "down",
         },
         {
             id: 2,
             name: "Ualá",
-            balance: "2900",
+            balance: "7.235",
             currency: "ARS",
             color: "#3C67F6",
+            performance: "138.00%",
+            performanceStatus: "up",
         },
         {
             id: 3,
             name: "BBVA",
-            balance: "2100",
+            balance: "189.600",
             currency: "ARS",
             color: "#005096",
+            performance: "53.00%",
+            performanceStatus: "",
         },
         {
             id: 6,
-            name: "Macro",
-            balance: "3000",
+            name: "Mercadopago",
+            balance: "36.018",
             currency: "ARS",
-            color: "#017DBC",
+            color: "#02A6E7",
+            performance: "5.00%",
+            performanceStatus: "down",
         },
         {
             id: 4,
@@ -63,14 +61,9 @@ export const getLinkedAccounts = () => {
             balance: "0.0004",
             currency: "BTC",
             color: "#E8B30B",
-        },
-        {
-            id: 5,
-            name: "Mdex",
-            balance: "27",
-            currency: "MDX",
-            color: "#0E1752",
-        },
+            performance: "47.00%",
+            performanceStatus: "up",
+        }
     ];
 }
 

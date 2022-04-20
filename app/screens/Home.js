@@ -3,14 +3,18 @@ import { StyleSheet, Text, ScrollView, RefreshControl, View, Dimensions } from '
 
 //Components
 import BalanceCard from '../shared/components/home/BalanceCard';
+import { SectionTitle } from '../shared/components/common/SectionTitle';
+import { WalletCard } from '../shared/components/home/WalletCard';
 
 // Styles
 
 // Funtions
-import { getSelectedBadges } from '../functions/HomeFunctions';
+import { getSelectedBadges, getLinkedAccounts } from '../functions/HomeFunctions';
 
 export default function Home() {
-    const [selectedBadges, setSelectedBadges] = useState([]);
+    const [selectedBadges, setSelectedBadges] = useState(getSelectedBadges());
+    const [linkedAccounts, setLinkedAccounts] = useState(getLinkedAccounts());
+
     const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = React.useCallback(() => {
@@ -20,14 +24,10 @@ export default function Home() {
         }, 1500);
     }, [refreshing]);
 
-    useEffect(() => {
-        getSelectedBadges(setSelectedBadges);
-    }, []);
-
     return (
         <View style={styles.container}>
             <ScrollView
-                style={styles.scroller}
+                style={styles.mainScroller}
                 showsVerticalScrollIndicator={false}
                 refreshControl={
                     <RefreshControl
@@ -48,18 +48,26 @@ export default function Home() {
                             />
                         ))}
                 </View>
-                <View style={styles.walletsList}>
-                    {/* <Text style={{ position: "absolute", bottom: 20 }}>Ocupar espacio</Text> */}
-                </View>
-                <View style={styles.walletsList}>
-                    {/* <Text style={{ position: "absolute", bottom: 20 }}>Ocupar espacio</Text> */}
-                </View>
+                <SectionTitle title="Mis billeteras" />
+                <ScrollView
+                    style={styles.commonScroller}
+                    showsVerticalScrollIndicator={true}
+                >
+                    <View style={styles.walletsList}>
+                        {linkedAccounts &&
+                            linkedAccounts.map((account) => (
+                                <WalletCard
+                                    key={account.id}
+                                    account={account}
+                                />
+                            ))}
+                    </View>
+                </ScrollView>
             </ScrollView>
         </View>
     );
 }
 
-const screenHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -67,34 +75,43 @@ const styles = StyleSheet.create({
         height: '50%',
         backgroundColor: '#faf9f9',
         flexDirection: 'column',
-        /* justifyContent: 'flex-start',
-        alignItems: 'flex-start', */
     },
-    scroller: {
+    mainScroller: {
+        position: 'relative',
+        zIndex: 1,
         flex: 1,
         width: '100%',
         height: '100%',
         backgroundColor: '#faf9f9',
         flexDirection: 'column',
-        paddingRight: 20,
-        paddingLeft: 20,
+        paddingRight: 16,
+        paddingLeft: 16,
+    },
+    commonScroller: {
+        position: 'relative',
+        zIndex: 1,
+        flex: 1,
+        width: '100%',
+        height: 450,
     },
     balanceCardsList: {
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        width: '100%',
+        alignSelf: 'center',
+        width: '97%',
         height: 'auto',
         marginTop: 20,
     },
     walletsList: {
+        flex: 1,
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        width: '100%',
-        height: 300,
-        backgroundColor: '#383838',
+        alignSelf: 'center',
+        width: '97%',
+        height: 'auto',
         borderRadius: 12,
-        marginBottom: 20,
+        marginTop: -20,
     },
 });

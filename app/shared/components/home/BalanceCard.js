@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     balanceCardContainer: {
         position: "relative",
         width: '100%',
-        height: 160,
+        height: 155,
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
         padding: 30,
