@@ -1,6 +1,8 @@
 import React from 'react'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 
+
+
 export const WalletCard = ({ account }) => {
     const { name, balance, currency, color, performanceStatus, performance } = account
 

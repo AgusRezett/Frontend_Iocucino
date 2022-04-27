@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, ScrollView, RefreshControl, View, Dimensions } from 'react-native';
 
 //Components
-import BalanceCard from '../shared/components/home/BalanceCard';
 import { SectionTitle } from '../shared/components/common/SectionTitle';
-import { WalletCard } from '../shared/components/home/WalletCard';
+import BalanceCard from '../shared/components/home/BalanceCard';
+import { WalletCardsLists } from '../shared/components/home/WalletCardsLists';
 
 // Styles
 
@@ -13,7 +13,6 @@ import { getSelectedBadges, getLinkedAccounts } from '../functions/HomeFunctions
 
 export default function Home() {
     const [selectedBadges, setSelectedBadges] = useState(getSelectedBadges());
-    const [linkedAccounts, setLinkedAccounts] = useState(getLinkedAccounts());
 
     const [refreshing, setRefreshing] = useState(false);
 
@@ -53,15 +52,7 @@ export default function Home() {
                     style={styles.commonScroller}
                     showsVerticalScrollIndicator={true}
                 >
-                    <View style={styles.walletsList}>
-                        {linkedAccounts &&
-                            linkedAccounts.map((account) => (
-                                <WalletCard
-                                    key={account.id}
-                                    account={account}
-                                />
-                            ))}
-                    </View>
+                    <WalletCardsLists />
                 </ScrollView>
             </ScrollView>
         </View>
@@ -92,7 +83,7 @@ const styles = StyleSheet.create({
         zIndex: 1,
         flex: 1,
         width: '100%',
-        height: 450,
+        height: 900,
     },
     balanceCardsList: {
         flexDirection: 'column',

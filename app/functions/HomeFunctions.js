@@ -47,7 +47,7 @@ export const getLinkedAccounts = () => {
             performanceStatus: "",
         },
         {
-            id: 6,
+            id: 4,
             name: "Mercadopago",
             balance: "36.018",
             currency: "ARS",
@@ -56,7 +56,7 @@ export const getLinkedAccounts = () => {
             performanceStatus: "down",
         },
         {
-            id: 4,
+            id: 5,
             name: "Binance",
             balance: "0.0004",
             currency: "BTC",

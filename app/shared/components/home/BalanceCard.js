@@ -38,17 +38,9 @@ export default function BalanceCard({ badgeId, value }) {
                             <Text style={styles.balanceCarBadgeContent}>{badge.badge}</Text>
                             <Text style={styles.balanceCardValueContent}>{value}</Text>
                         </View>
-                        {/* <ArgFlag style={styles.balanceCardFlag} /> */}
                         <View style={styles.balanceCardFlagContainer}>
                             {badge.flag}
                         </View>
-
-                        {/* <Image
-                            style={styles.balanceCardFlag}
-                            source={require(`../../../../assets/svgs/shield.png`)}
-                        // source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
-                        /> */}
-                        {/* <img src={badgeDictionary[badgeId].flag} alt="" /> */}
                     </View>
                     <Text style={{ width: "100%", textAlign: "left", fontFamily: "Nunito-Regular", color: "#fff" }}>disponibles</Text>
                 </View>

@@ -20,8 +20,12 @@ import { AsyncGetSessionToken } from './app/functions/GlobalFunctions';
 import ApplicationContent from './app/stacks/ApplicationContent';
 
 // Hooks
-import { LangProvider } from './app/hooks/useContext/LangContext';
+import { LangProvider } from './app/hooks/contexts/LangContext';
 import Login from './app/screens/Login';
+
+// Reducers
+import { Provider as ReduxProvider } from 'react-redux';
+import store from './app/store';
 
 const Stack = createNativeStackNavigator();
 
@@ -49,23 +53,20 @@ export default function App() {
         return <AppLoading />;
     } else {
         return (
-            <NavigationContainer >
-                <LangProvider>
-                    <Stack.Navigator
-                        //initialRouteName={sessionToken ? 'ApplicationContent' : 'Login'}
-                        initialRouteName={'ApplicationContent'}
-                        screenOptions={{ headerShown: false }}
-                    >
-                        <Stack.Screen name="Login" component={Login} />
-                        <Stack.Screen name="ApplicationContent" component={ApplicationContent} />
-                    </Stack.Navigator>
-                    {/* {!sessionToken ?
-                        <Login />
-                        :
-                        <ApplicationContent />
-                    } */}
-                </LangProvider>
-            </NavigationContainer>
+            <ReduxProvider store={store}>
+                <NavigationContainer >
+                    <LangProvider>
+                        <Stack.Navigator
+                            //initialRouteName={sessionToken ? 'ApplicationContent' : 'Login'}
+                            initialRouteName={'ApplicationContent'}
+                            screenOptions={{ headerShown: false }}
+                        >
+                            <Stack.Screen name="Login" component={Login} />
+                            <Stack.Screen name="ApplicationContent" component={ApplicationContent} />
+                        </Stack.Navigator>
+                    </LangProvider>
+                </NavigationContainer>
+            </ReduxProvider>
         );
     }
 }
