@@ -54,6 +54,14 @@ const styles = StyleSheet.create({
         marginTop: 20,
         borderRadius: 12,
         padding: 20,
+        shadowColor: '#bfbfbf',
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
     walletInfo: {
         flexDirection: 'column',

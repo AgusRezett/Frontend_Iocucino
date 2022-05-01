@@ -48,12 +48,7 @@ export default function Home() {
                         ))}
                 </View>
                 <SectionTitle title="Mis billeteras" />
-                <ScrollView
-                    style={styles.commonScroller}
-                    showsVerticalScrollIndicator={true}
-                >
-                    <WalletCardsLists />
-                </ScrollView>
+                <WalletCardsLists />
             </ScrollView>
         </View>
     );
@@ -66,6 +61,7 @@ const styles = StyleSheet.create({
         height: '50%',
         backgroundColor: '#faf9f9',
         flexDirection: 'column',
+        paddingBottom: 95,
     },
     mainScroller: {
         position: 'relative',

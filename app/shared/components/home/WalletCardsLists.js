@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, Button } from 'react-native'
+import { StyleSheet, View, Button, TouchableOpacity, Text } from 'react-native'
 
-import { getLinkedAccounts } from '../../../functions/HomeFunctions';
 import { WalletCard } from './WalletCard';
 
 import { connect, useDispatch, useSelector } from 'react-redux'
+
+//Icons
+import PlusIcon from '../../../../assets/icons/plus.svg';
 
 export const WalletCardsLists = () => {
     const dispatch = useDispatch()
@@ -12,8 +14,8 @@ export const WalletCardsLists = () => {
 
     return (
         <View style={styles.walletsList}>
-            <Button
-                title="Agregar billetera"
+            <TouchableOpacity
+                style={styles.addWalletButton}
                 onPress={() => {
                     dispatch({
                         type: 'ADD_WALLET',
@@ -28,7 +30,16 @@ export const WalletCardsLists = () => {
                         }
                     })
                 }}
-            ></Button>
+            >
+                <PlusIcon
+                    width={20}
+                    height={20}
+                    stroke="#4E4E4E"
+                    strokeWidth={2}
+                    style={{ marginRight: 5 }}
+                />
+                <Text style={styles.addWalletButtonText}>Agregar billetera</Text>
+            </TouchableOpacity>
             {linkedAccounts &&
                 linkedAccounts.map((account) => (
                     <WalletCard
@@ -70,8 +81,35 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'center',
         width: '97%',
-        height: 'auto',
+        height: 550,
         borderRadius: 12,
         marginTop: -20,
+        paddingBottom: 20,
     },
-});
+    addWalletButton: {
+        position: 'relative',
+        width: '100%',
+        height: 60,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        marginTop: 20,
+        borderRadius: 12,
+        padding: 20,
+        shadowColor: '#bfbfbf',
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    addWalletButtonText: {
+        fontSize: 16,
+        color: '#4E4E4E',
+        fontFamily: 'Nunito-Bold',
+        lineHeight: 21
+    },
+})

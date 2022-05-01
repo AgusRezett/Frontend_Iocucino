@@ -52,7 +52,7 @@ export default function ApplicationContent() {
                         borderRadius: 10,
                     }}
                 >
-                    <Icon width={30} height={30} fill={focused ? '#ffc000' : '#4E4E4E'} style={{ marginTop: 5 }} />
+                    <Icon width={25} height={25} fill={focused ? '#ffc000' : '#4E4E4E'} />
                 </View>
             </TouchableOpacity>
         )
@@ -66,7 +66,6 @@ export default function ApplicationContent() {
                 <Topbar />
                 <Tab.Navigator
                     initialRouteName="home"
-                    tabBarPosition="bottom"
                     screenOptions={{
                         headerShown: false,
                         tabBarShowLabel: false,
@@ -76,15 +75,19 @@ export default function ApplicationContent() {
                             bottom: 20,
                             left: 0,
                             marginHorizontal: 20,
+                            paddingHorizontal: 15,
                             height: 75,
+                            flex: 1,
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
                             borderRadius: 10,
-                            shadowColor: 'grey',
+                            shadowColor: '#bfbfbf',
                             shadowOffset: {
                                 width: 0,
-                                height: 0,
+                                height: 3,
                             },
-                            shadowOpacity: 0,
-                            shadowRadius: 10,
+                            shadowOpacity: 0.25,
+                            shadowRadius: 3.84,
                             elevation: 5,
                         },
                     }}
