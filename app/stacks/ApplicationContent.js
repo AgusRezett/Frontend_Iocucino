@@ -89,6 +89,7 @@ export default function ApplicationContent() {
                             shadowOpacity: 0.25,
                             shadowRadius: 3.84,
                             elevation: 5,
+                            borderTopWidth: 0,
                         },
                     }}
                 >
