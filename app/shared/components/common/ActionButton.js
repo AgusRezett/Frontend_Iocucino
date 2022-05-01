@@ -1,17 +1,19 @@
 import React from 'react'
 
 // Components
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, Vibration } from 'react-native';
 
 // Icons
 import ChevronRightIcon from '../../../../assets/icons/chevron-right.svg';
 
 export const ActionButton = ({ title }) => {
     return (
-        <View style={styles.actionContainer}>
+        <TouchableOpacity style={styles.actionContainer} activeOpacity={0.6}
+            onPress={() => { Vibration.vibrate(20); }}
+        >
             <Text style={styles.actionTitle}>{title}</Text>
             <ChevronRightIcon width="24" height="24" stroke="#C4C4C4" />
-        </View>
+        </TouchableOpacity>
     )
 }
 

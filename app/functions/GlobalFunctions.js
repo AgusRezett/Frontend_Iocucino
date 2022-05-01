@@ -42,28 +42,28 @@ export const AsyncGetSessionToken = async () => {
 export const badgeDictionary = (flagProps = null) => {
     return [
         {
-            title: 'currency.title.bitcoin',
+            title: 'Bitcoins',
             flag: <Btc {...flagProps} />,
             badge: 'BTC',
             color: "#ffae00",
             backgroundClass: "btc-flag",
         },
         {
-            title: 'currency.title.american-dollar',
+            title: 'Dólares estadounidenses',
             flag: <Usa {...flagProps} />,
             badge: 'US$',
             color: "#2da06e",
             backgroundClass: "usd-flag",
         },
         {
-            title: 'currency.title.euro',
+            title: 'Euros',
             flag: <Eur {...flagProps} />,
             badge: '€',
             color: "#004aa2",
             backgroundClass: "eur-flag"
         },
         {
-            title: 'currency.title.argentine-peso',
+            title: 'Pesos argentinos',
             flag: <Arg {...flagProps} />,
             badge: 'AR$',
             color: "#338af3",

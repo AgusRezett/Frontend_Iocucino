@@ -11,15 +11,15 @@ export const getSelectedBadges = () => {
     return [
         {
             id: 3,
-            value: "9600",
+            value: "239,172.00",
         },
         {
             id: 2,
-            value: "25",
+            value: "0",
         },
         {
-            id: 1,
-            value: "164",
+            id: 0,
+            value: "0.0004",
         },
     ];
 }
@@ -47,7 +47,7 @@ export const getLinkedAccounts = (logoProps = null) => {
         {
             id: 3,
             name: "BBVA",
-            balance: "189.600",
+            balance: "189,600.00",
             currency: "AR$",
             color: "#005096",
             performance: "53.00%",
@@ -56,7 +56,7 @@ export const getLinkedAccounts = (logoProps = null) => {
         {
             id: 4,
             name: "Mercadopago",
-            balance: "36.018",
+            balance: "36,000.00",
             currency: "AR$",
             color: "#02A6E7",
             performance: "5.00%",
@@ -89,7 +89,7 @@ export const getLinkedBankAccounts = (logoProps = null) => {
         {
             id: 3,
             name: "BBVA",
-            balance: "189.600",
+            balance: "189,600.00",
             currency: "AR$",
             color: "#005096",
             performance: "53.00%",
@@ -114,7 +114,7 @@ export const getLinkedApplicationAccounts = (logoProps = null) => {
         {
             id: 4,
             name: "Mercadopago",
-            balance: "36.018",
+            balance: "36,000.00",
             currency: "AR$",
             color: "#02A6E7",
             performance: "5.00%",
