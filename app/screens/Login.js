@@ -44,9 +44,6 @@ export default function Login() {
                 }}
 
             />
-            {/* <View style={styles.loginView}>
-                <FormContainer />
-            </View> */}
         </Stack.Navigator>
     )
 }
