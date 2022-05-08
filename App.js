@@ -44,6 +44,10 @@ export default function App() {
         'RooneySans-Medium': require('./assets/fonts/rooneysans/RooneySansMedium.woff'),*/
         'RooneySans-Bold': require('./assets/fonts/rooneysans/RooneySans-Bold.ttf'),
         /* 'RooneySans-Black': require('./assets/fonts/rooneysans/RooneySansBlk.woff'),  */
+
+        'Nunito-ExtraLight': require('./assets/fonts/nunito/Nunito-ExtraLight.ttf'),
+        'Nunito-Light': require('./assets/fonts/nunito/Nunito-Light.ttf'),
+        'Nunito-SemiBold': require('./assets/fonts/nunito/Nunito-SemiBold.ttf'),
         'Nunito-Regular': require('./assets/fonts/nunito/Nunito-Regular.ttf'),
         'Nunito-Bold': require('./assets/fonts/nunito/Nunito-Bold.ttf'),
         'Nunito-ExtraBold': require('./assets/fonts/nunito/Nunito-ExtraBold.ttf'),

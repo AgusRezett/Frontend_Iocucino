@@ -2,8 +2,9 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 // Components
 import { LoginForm, RegisterForm } from '../shared/components/login/FormContainer';
-import { Register2 } from './Register2';
-import { Register3 } from './Register3';
+import { Register2 } from './Registro/Register2';
+import { Register3 } from './Registro/Register3';
+import { Validation } from './Validation';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -43,6 +44,7 @@ export default function Login() {
             />
             <Stack.Screen name="Register2" component={Register2} />
             <Stack.Screen name="Register3" component={Register3} />
+            <Stack.Screen name="Validation" component={Validation} />
         </Stack.Navigator>
     )
 }
