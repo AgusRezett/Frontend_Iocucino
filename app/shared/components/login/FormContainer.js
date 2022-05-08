@@ -1,10 +1,10 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 
 // Components
-import { StyleSheet, View, Text, TouchableOpacity, TextInput, Vibration, Animated } from 'react-native';
-//import { Form, Item, Label, Input } from "native-base";
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, Vibration, Animated, Keyboard } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+
+// Components
 import { Formik } from 'formik';
 import * as yup from 'yup'
 
@@ -35,7 +35,7 @@ export const LoginForm = ({ navigation }) => {
         }).start();
     }
 
-    const logIn = (values) => {
+    const submitForm = (values) => {
         Vibration.vibrate(20);
         console.log(values)
         AsyncSetSessionToken("patata");
@@ -53,7 +53,12 @@ export const LoginForm = ({ navigation }) => {
     })
 
     return (
-        <View style={styles.loginView}>
+        <TouchableOpacity
+            style={styles.loginView}
+            onPress={Keyboard.dismiss}
+            accessible={false}
+            activeOpacity={1}
+        >
             <View style={styles.formContainer}>
                 <View style={styles.formContent}>
                     <View>
@@ -63,7 +68,7 @@ export const LoginForm = ({ navigation }) => {
                     <Formik
                         initialValues={{ email: '', password: '' }}
                         onSubmit={(values, { resetForm }) => {
-                            logIn(values)
+                            submitForm(values)
                             resetForm({ email: '', password: '' })
                         }}
                         validationSchema={loginValidationSchema}
@@ -133,7 +138,6 @@ export const LoginForm = ({ navigation }) => {
                             </View>
                         )}
                     </Formik >
-
                     <View style={styles.lastMessageContainer}>
                         <Text style={styles.lastMessageText}>¿Aún no tenés una cuenta?</Text>
                         <TouchableOpacity onPress={() => navigation.navigate('RegisterForm')}>
@@ -142,7 +146,7 @@ export const LoginForm = ({ navigation }) => {
                     </View>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 
@@ -153,13 +157,6 @@ export const RegisterForm = ({ navigation }) => {
     const [passwordActive, setPasswordActive] = useState(false);
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [passwordConfirmActive, setPasswordConfirmActive] = useState(false);
-
-    const register = (values) => {
-        Vibration.vibrate(20);
-        console.log(values)
-        AsyncSetSessionToken("patata");
-        navigation.navigate('ApplicationContent');
-    }
 
     const topNameAnim = useRef(new Animated.Value(8)).current;
     const topSurnameAnim = useRef(new Animated.Value(8)).current;
@@ -224,14 +221,12 @@ export const RegisterForm = ({ navigation }) => {
         }).start();
     }
 
-    /* const handleKeyPress = ({ nativeEvent: { key: keyValue } }) => {
-        console.log(keyValue);
-        if (keyValue === 'f') {
-            return false;
-        } else {
-            return true;
-        }
-    }; */
+    const submitForm = (values) => {
+        Vibration.vibrate(20);
+        navigation.navigate('Register2', {
+            userValues: values
+        });
+    }
 
     const registerValidationSchema = yup.object().shape({
         name: yup
@@ -332,7 +327,12 @@ export const RegisterForm = ({ navigation }) => {
     }
 
     return (
-        <View style={styles.loginView} >
+        <TouchableOpacity
+            style={styles.loginView}
+            onPress={Keyboard.dismiss}
+            accessible={false}
+            activeOpacity={1}
+        >
             <View style={styles.formContainer}>
                 <View style={styles.formContent}>
                     <View>
@@ -355,8 +355,7 @@ export const RegisterForm = ({ navigation }) => {
                     <Formik
                         initialValues={{ name: '', surname: '', email: '', password: '', passwordConfirm: '' }}
                         onSubmit={(values, { resetForm }) => {
-                            register(values)
-                            resetForm({ name: '', surname: '', email: '', password: '', passwordConfirm: '' })
+                            submitForm(values)
                         }}
                         validationSchema={registerValidationSchema}
                     >
@@ -464,7 +463,7 @@ export const RegisterForm = ({ navigation }) => {
                     </View>
                 </View>
             </View>
-        </View >
+        </TouchableOpacity >
     );
 }
 
@@ -484,10 +483,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#fefcff',
         alignItems: 'center',
         justifyContent: 'center',
-        paddingTop: 20,
-        paddingRight: 20,
-        paddingBottom: 20,
-        paddingLeft: 20,
+        paddingHorizontal: 10,
+        paddingVertical: 20,
+        paddingTop: 50,
     },
     formContainer: {
         width: '80%',

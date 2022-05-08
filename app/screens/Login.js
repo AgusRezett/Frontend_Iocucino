@@ -1,11 +1,9 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 // Components
-import { useNavigation } from '@react-navigation/native';
-import { AsyncSetSessionToken } from '../functions/GlobalFunctions';
-
-// Components
 import { LoginForm, RegisterForm } from '../shared/components/login/FormContainer';
+import { Register2 } from './Register2';
+import { Register3 } from './Register3';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -42,8 +40,9 @@ export default function Login() {
                     gestureEnabled: true,
                     gestureDirection: "horizontal-inverted"
                 }}
-
             />
+            <Stack.Screen name="Register2" component={Register2} />
+            <Stack.Screen name="Register3" component={Register3} />
         </Stack.Navigator>
     )
 }
