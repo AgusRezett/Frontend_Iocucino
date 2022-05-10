@@ -5,6 +5,7 @@ import { LoginForm, RegisterForm } from '../shared/components/login/FormContaine
 import { Register2 } from './Registro/Register2';
 import { Register3 } from './Registro/Register3';
 import { Validation } from './Validation';
+import { DocumentValidation } from './DocumentValidation';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -13,7 +14,7 @@ const Stack = createNativeStackNavigator();
 export default function Login() {
     return (
         <Stack.Navigator
-            initialRouteName='LoginForm'
+            initialRouteName='DocumentValidation'
             screenOptions={{
                 gestureEnabled: true,
                 headerShown: false,
@@ -45,6 +46,7 @@ export default function Login() {
             <Stack.Screen name="Register2" component={Register2} />
             <Stack.Screen name="Register3" component={Register3} />
             <Stack.Screen name="Validation" component={Validation} />
+            <Stack.Screen name="DocumentValidation" component={DocumentValidation} />
         </Stack.Navigator>
     )
 }

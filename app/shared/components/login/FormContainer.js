@@ -76,68 +76,70 @@ export const LoginForm = ({ navigation }) => {
                         validationSchema={loginValidationSchema}
                     >
                         {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldTouched, isValid, }) => (
-                            <View style={loginStack.inputsContainer}>
-                                <View style={loginStack.inputContainer}>
-                                    <Animated.Text style={[
-                                        values.email.length > 0 ? emailActive ? loginStack.inputLabelActive : loginStack.inputLabelUnactive : loginStack.inputLabel,
-                                        { top: topEmailAnim }
-                                    ]}
-                                    >
-                                        Email
-                                    </Animated.Text>
-                                    <TextInput
-                                        onChangeText={handleChange('email')}
-                                        onBlur={() => { handleBlur('email'), setEmailActive(false), setFieldTouched('email'), values.email.length <= 0 ? moveDown('email') : moveUp('email') }}
-                                        onPressIn={() => { setEmailActive(true), moveUp('email') }}
-                                        textContentType='emailAddress'
-                                        keyboardType='email-address'
-                                        autoCapitalize='none'
-                                        autoCorrect={false}
-                                        autoCompleteType='email'
-                                        value={values.email.trim()}
-                                        style={[emailActive ? loginStack.formInputActive : loginStack.formInput, errors.email && touched.email ? { color: status.error } : null]}
-                                    />
-                                    {(errors.email && touched.email && errors.email != "a") &&
-                                        <Text style={loginStack.errorText}>{errors.email}</Text>
-                                    }
-                                </View>
-                                <View style={[loginStack.inputContainer]}>
-                                    <Animated.Text
-                                        style={[
-                                            values.password.length > 0 ? passwordActive ? loginStack.inputLabelActive : loginStack.inputLabelUnactive : loginStack.inputLabel,
-                                            { top: topPasswordAnim }
+                            <>
+                                <View style={loginStack.inputsContainer}>
+                                    <View style={loginStack.inputContainer}>
+                                        <Animated.Text style={[
+                                            values.email.length > 0 ? emailActive ? loginStack.inputLabelActive : loginStack.inputLabelUnactive : loginStack.inputLabel,
+                                            { top: topEmailAnim }
                                         ]}
-                                    >
-                                        Contraseña
-                                    </Animated.Text>
-                                    <View style={[loginStack.passwordContainer]}>
+                                        >
+                                            Email
+                                        </Animated.Text>
                                         <TextInput
-                                            secureTextEntry={!passwordVisible ? true : false}
-                                            onChangeText={handleChange('password')}
-                                            onBlur={() => { handleBlur('password'), setPasswordActive(false), setFieldTouched('password'), values.password.length <= 0 ? moveDown('password') : moveUp('password') }}
-                                            onPressIn={() => { setPasswordActive(true), moveUp("password") }}
-                                            value={values.password.trim()}
-                                            style={passwordActive ? loginStack.formInputPasswordActive : loginStack.formInputPassword}
+                                            onChangeText={handleChange('email')}
+                                            onBlur={() => { handleBlur('email'), setEmailActive(false), setFieldTouched('email'), values.email.length <= 0 ? moveDown('email') : moveUp('email') }}
+                                            onPressIn={() => { setEmailActive(true), moveUp('email') }}
+                                            textContentType='emailAddress'
+                                            keyboardType='email-address'
+                                            autoCapitalize='none'
+                                            autoCorrect={false}
+                                            autoCompleteType='email'
+                                            value={values.email.trim()}
+                                            style={[emailActive ? loginStack.formInputActive : loginStack.formInput, errors.email && touched.email ? { color: status.error } : null]}
                                         />
-                                        <Ionicons
-                                            style={[passwordActive ? { borderBottomColor: logo.orange } : { borderBottomColor: text.placeholder }, { borderBottomWidth: 1, height: 40, width: 30, paddingTop: 7 }]}
-                                            name={passwordVisible ? `eye-outline` : `eye-off-outline`}
-                                            size={24}
-                                            color={text.placeholder}
-                                            onPress={() => {
-                                                Vibration.vibrate(20);
-                                                setPasswordVisible(!passwordVisible)
-                                            }}
-                                        />
+                                        {(errors.email && touched.email && errors.email != "a") &&
+                                            <Text style={loginStack.errorText}>{errors.email}</Text>
+                                        }
                                     </View>
-                                    {(errors.password && touched.password && errors.password != "a") &&
-                                        <Text style={loginStack.errorText}>{errors.password}</Text>
-                                    }
+                                    <View style={[loginStack.inputContainer]}>
+                                        <Animated.Text
+                                            style={[
+                                                values.password.length > 0 ? passwordActive ? loginStack.inputLabelActive : loginStack.inputLabelUnactive : loginStack.inputLabel,
+                                                { top: topPasswordAnim }
+                                            ]}
+                                        >
+                                            Contraseña
+                                        </Animated.Text>
+                                        <View style={[loginStack.passwordContainer]}>
+                                            <TextInput
+                                                secureTextEntry={!passwordVisible ? true : false}
+                                                onChangeText={handleChange('password')}
+                                                onBlur={() => { handleBlur('password'), setPasswordActive(false), setFieldTouched('password'), values.password.length <= 0 ? moveDown('password') : moveUp('password') }}
+                                                onPressIn={() => { setPasswordActive(true), moveUp("password") }}
+                                                value={values.password.trim()}
+                                                style={passwordActive ? loginStack.formInputPasswordActive : loginStack.formInputPassword}
+                                            />
+                                            <Ionicons
+                                                style={[passwordActive ? { borderBottomColor: logo.orange } : { borderBottomColor: text.placeholder }, { borderBottomWidth: 1, height: 40, width: 30, paddingTop: 7 }]}
+                                                name={passwordVisible ? `eye-outline` : `eye-off-outline`}
+                                                size={24}
+                                                color={text.placeholder}
+                                                onPress={() => {
+                                                    Vibration.vibrate(20);
+                                                    setPasswordVisible(!passwordVisible)
+                                                }}
+                                            />
+                                        </View>
+                                        {(errors.password && touched.password && errors.password != "a") &&
+                                            <Text style={loginStack.errorText}>{errors.password}</Text>
+                                        }
+                                    </View>
                                 </View>
                                 <TouchableOpacity style={isValid ? loginStack.submitBtn : loginStack.submitBtnDisabled} onPress={handleSubmit} disabled={!isValid}>
                                     <Text style={loginStack.submitBtnText}>Ingresar</Text>
                                 </TouchableOpacity>
-                            </View>
+                            </>
                         )}
                     </Formik >
                     <View style={loginStack.lastMessageContainer}>

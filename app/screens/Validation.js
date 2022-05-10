@@ -1,80 +1,62 @@
 import { useState, useRef } from 'react';
-
 import {
     StyleSheet,
     View,
     Text,
     TouchableOpacity,
-    TouchableHighlight,
     TextInput,
     Vibration,
     Keyboard,
-    Linking
+    Image
 } from 'react-native';
-import { RadioButton } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 
 // Components
-import { Formik } from 'formik';
-import * as yup from 'yup'
 import { loginStack } from '../shared/styles/loginStack';
 import { text } from '../shared/styles/colors';
 
-export const Validation = ({ navigation }) => {
-    const [phoneActive, setPhoneActive] = useState(false);
-    const [termsChecked, setTermsChecked] = useState(false)
-    const [policyChecked, setPolicyChecked] = useState(false)
+// Images
+// import Illustration from '../../assets/illustration/security.svg';
 
+export const Validation = ({ navigation }) => {
     const submitForm = (values) => {
         Vibration.vibrate(20);
-        userValues.phone = values.phone;
-        userValues.country = values.country
         console.log(userValues)
         //AsyncSetSessionToken("patata");
         //navigation.navigate('ApplicationContent');
     }
 
-    const loginValidationSchema = yup.object().shape({
-        phone: yup
-            .number()
-            .required(),
-        country: yup
-            .number()
-            .required(),
-        terms: yup
-            .bool()
-            .oneOf([true], 'Field must be checked'),
-        policy: yup
-            .bool()
-            .oneOf([true], 'Field must be checked'),
-    })
-
     return (
         <TouchableOpacity
-            style={loginStack.mainView}
+            style={{ ...loginStack.otherMainView }}
             onPress={Keyboard.dismiss}
             accessible={false}
             activeOpacity={1}
         >
             <View style={loginStack.formContainer}>
                 <View style={loginStack.formContent}>
-                    <View>
-                        <TouchableOpacity
-                            style={loginStack.backBtn}
-                            onPress={() => {
-                                Vibration.vibrate(20);
-                                navigation.goBack()
-                            }}
-                        >
-                            <Ionicons
-                                name={`ios-arrow-back`}
-                                size={24}
-                                color={text.placeholder}
-                            />
-                        </TouchableOpacity>
+                    <View style={styles.illustrationContainer}>
+                        <Image
+                            style={styles.illustration}
+                            source={require('../../assets/illustration/security.png')}
+                        />
+                        <View style={styles.messageContainer}>
+                            <Text style={styles.screenTitle}>
+                                Vamos a validar tu identidad
+                            </Text>
+                            <Text style={styles.screenMessage}>
+                                Puede tomarte unos minutos. Asegurate de tener tu DNI a mano y tomá asiento en un lugar bien iluminado.
+                            </Text>
+                        </View>
                     </View>
                     <View style={{ width: "100%" }}>
-                        <TouchableOpacity style={loginStack.submitBtn}>
+                        <TouchableOpacity
+                            style={loginStack.submitBtn}
+                            onPress={() => {
+                                Vibration.vibrate(20);
+                                navigation.navigate('DocumentValidation');
+                            }}
+                        >
                             <Text style={loginStack.submitBtnText}>Comenzar</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.skipButton}>
@@ -100,6 +82,42 @@ const styles = StyleSheet.create({
     skipBtnText: {
         fontFamily: 'Nunito-Light',
         color: text.placeholder,
-        fontSize: 18,
+        fontSize: 16,
     },
+    illustrationContainer: {
+        width: '100%',
+        height: 300,
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        marginTop: -20,
+    },
+    illustration: {
+        width: "100%",
+        height: "100%",
+        resizeMode: 'contain',
+    },
+    messageContainer: {
+        width: '100%',
+        height: "auto",
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        marginTop: -20,
+    },
+    screenTitle: {
+        fontFamily: 'Nunito-Bold',
+        color: text.principal,
+        fontSize: 20,
+        letterSpacing: 0,
+        marginBottom: 10,
+    },
+    screenMessage: {
+        fontFamily: 'Nunito-Regular',
+        color: text.placeholder,
+        fontSize: 14,
+        letterSpacing: 0,
+        marginBottom: 10,
+        textAlign: 'center',
+    }
 })
