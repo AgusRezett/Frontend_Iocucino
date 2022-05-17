@@ -1,20 +1,15 @@
 
-
-/* import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native'; */
-
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 
 // Components
-//import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Functions
 import { AsyncGetSessionToken } from './app/functions/GlobalFunctions';
+import { getDbConnection, initDatabase } from './app/database';
 
 // Stacks
 import ApplicationContent from './app/stacks/ApplicationContent';
@@ -36,6 +31,7 @@ export default function App() {
         AsyncGetSessionToken().then(value => {
             setSessionToken(value);
         });
+        initDatabase();
     }, [])
 
     const [fontsLoaded] = useFonts({

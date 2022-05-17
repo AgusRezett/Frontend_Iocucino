@@ -12,6 +12,7 @@ import { AsyncSetSessionToken } from '../../../functions/GlobalFunctions';
 // Styles
 import { loginStack } from '../../styles/loginStack';
 import { logo, status, text } from '../../styles/colors';
+import { getDbConnection, loginDatabase } from '../../../database';
 
 export const LoginForm = ({ navigation }) => {
     const [emailActive, setEmailActive] = useState(false);
@@ -37,11 +38,18 @@ export const LoginForm = ({ navigation }) => {
         }).start();
     }
 
-    const submitForm = (values) => {
+    const submitForm = async (values) => {
         Vibration.vibrate(20);
-        console.log(values)
-        AsyncSetSessionToken("patata");
-        navigation.navigate('ApplicationContent');
+        //console.log(values)
+        try {
+            const db = await getDbConnection();
+            const result = await loginDatabase(db, values.email, values.password);
+            //console.log('Login success');
+            //AsyncSetSessionToken("patata");
+            //navigation.navigate('ApplicationContent');
+        } catch (error) {
+            console.log("Hubo un error");
+        }
     }
 
     const loginValidationSchema = yup.object().shape({
@@ -68,10 +76,10 @@ export const LoginForm = ({ navigation }) => {
                         <Text style={loginStack.formTitle}>Iniciar sesion</Text>
                     </View>
                     <Formik
-                        initialValues={{ email: '', password: '' }}
+                        initialValues={{ email: 'agustin.rezett@gmail.com', password: 'Holaquetal_1' }}
                         onSubmit={(values, { resetForm }) => {
                             submitForm(values)
-                            resetForm({ email: '', password: '' })
+                            //resetForm({ email: '', password: '' })
                         }}
                         validationSchema={loginValidationSchema}
                     >

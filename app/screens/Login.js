@@ -1,20 +1,21 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 // Components
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+// Screens
 import { LoginForm, RegisterForm } from '../shared/components/login/FormContainer';
 import { Register2 } from './Registro/Register2';
 import { Register3 } from './Registro/Register3';
 import { Validation } from './Validation';
 import { DocumentValidation } from './DocumentValidation';
 
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
 const Stack = createNativeStackNavigator();
 
 export default function Login() {
     return (
         <Stack.Navigator
-            initialRouteName='DocumentValidation'
+            initialRouteName='LoginForm'
             screenOptions={{
                 gestureEnabled: true,
                 headerShown: false,
