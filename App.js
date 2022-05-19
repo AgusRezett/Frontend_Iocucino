@@ -31,7 +31,7 @@ export default function App() {
         AsyncGetSessionToken().then(value => {
             setSessionToken(value);
         });
-        initDatabase();
+        //initDatabase();
     }, [])
 
     const [fontsLoaded] = useFonts({
