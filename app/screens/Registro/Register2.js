@@ -22,7 +22,7 @@ import { logo, text } from '../../shared/styles/colors';
 
 export const Register2 = ({ navigation, route }) => {
     const { userValues } = route.params;
-    const [dniActive, setDniActive] = useState(false);
+    const [documentActive, setDocumentActive] = useState(false);
 
     const topEmailAnim = useRef(new Animated.Value(8)).current;
     const moveUp = (type) => {
@@ -42,7 +42,7 @@ export const Register2 = ({ navigation, route }) => {
 
     const submitForm = (values) => {
         Vibration.vibrate(20);
-        userValues.dni = values.dni;
+        userValues.document = values.document;
         userValues.gender = values.gender
         navigation.navigate('Register3', {
             userValues: userValues
@@ -50,7 +50,7 @@ export const Register2 = ({ navigation, route }) => {
     }
 
     const loginValidationSchema = yup.object().shape({
-        dni: yup
+        document: yup
             .number()
             .positive()
             .required('Campo requerido'),
@@ -85,7 +85,7 @@ export const Register2 = ({ navigation, route }) => {
                         <Text style={loginStack.formTitleAdditional}>Comencemos por algunos datos tuyos</Text>
                     </View>
                     <Formik
-                        initialValues={{ dni: '', gender: '' }}
+                        initialValues={{ document: '', gender: '' }}
                         onSubmit={(values, { resetForm }) => {
                             submitForm(values)
                         }}
@@ -96,24 +96,24 @@ export const Register2 = ({ navigation, route }) => {
                                 <View style={{ width: '100%' }}>
                                     <View style={loginStack.inputContainer}>
                                         <Animated.Text style={[
-                                            values.dni.length > 0 ? dniActive ? loginStack.inputLabelActive : loginStack.inputLabelUnactive : loginStack.inputLabel,
+                                            values.document.length > 0 ? documentActive ? loginStack.inputLabelActive : loginStack.inputLabelUnactive : loginStack.inputLabel,
                                             { top: topEmailAnim }
                                         ]}
                                         >
                                             Dni
                                         </Animated.Text>
                                         <TextInput
-                                            onChangeText={handleChange('dni')}
-                                            onBlur={() => { handleBlur('dni'), setDniActive(false), setFieldTouched('dni'), values.dni.length <= 0 ? moveDown('dni') : moveUp('dni') }}
-                                            onPressIn={() => { setDniActive(true), moveUp('dni') }}
+                                            onChangeText={handleChange('document')}
+                                            onBlur={() => { handleBlur('document'), setDocumentActive(false), setFieldTouched('document'), values.document.length <= 0 ? moveDown('document') : moveUp('document') }}
+                                            onPressIn={() => { setDocumentActive(true), moveUp('document') }}
                                             keyboardType='number-pad'
                                             autoCapitalize='none'
                                             maxLength={8}
-                                            value={values.dni.trim()}
-                                            style={[dniActive ? loginStack.formInputActive : loginStack.formInput, errors.dni && touched.dni ? { color: "#e81f37" } : null]}
+                                            value={values.document.trim()}
+                                            style={[documentActive ? loginStack.formInputActive : loginStack.formInput, errors.document && touched.document ? { color: "#e81f37" } : null]}
                                         />
-                                        {(errors.dni && touched.dni) &&
-                                            <Text style={loginStack.errorText}>{errors.dni}</Text>
+                                        {(errors.document && touched.document) &&
+                                            <Text style={loginStack.errorText}>{errors.document}</Text>
                                         }
                                     </View>
                                     <View style={loginStack.inputContainer}>
@@ -140,7 +140,7 @@ export const Register2 = ({ navigation, route }) => {
                                             </View>
                                         </RadioButton.Group>
                                         {(errors.gender && touched.gender && errors.gender != "b") &&
-                                            <Text style={loginStack.errorText}>{errors.dni}</Text>
+                                            <Text style={loginStack.errorText}>{errors.document}</Text>
                                         }
                                     </View>
                                 </View>

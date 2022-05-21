@@ -1,7 +1,7 @@
-import { useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 // Components
-import { View, Text, TouchableOpacity, TextInput, Vibration, Animated, Keyboard } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Vibration, Animated, Keyboard, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Formik } from 'formik';
 import * as yup from 'yup'
@@ -12,7 +12,10 @@ import { AsyncSetSessionToken } from '../../../functions/GlobalFunctions';
 // Styles
 import { loginStack } from '../../styles/loginStack';
 import { logo, status, text } from '../../styles/colors';
+
+// Database
 import { getDbConnection, loginDatabase } from '../../../database';
+import { auth } from '../../../database/firebase';
 
 export const LoginForm = ({ navigation }) => {
     const [emailActive, setEmailActive] = useState(false);
@@ -40,13 +43,13 @@ export const LoginForm = ({ navigation }) => {
 
     const submitForm = async (values) => {
         Vibration.vibrate(20);
-        //console.log(values)
         try {
-            const db = await getDbConnection();
-            const result = await loginDatabase(db, values.email, values.password);
+            auth.signInWithEmailAndPassword(values.email, values.password)
+                .then(async (user) => {
+                    await AsyncSetSessionToken(user.user.uid);
+                })
             //console.log('Login success');
             //AsyncSetSessionToken("patata");
-            //navigation.navigate('ApplicationContent');
         } catch (error) {
             console.log("Hubo un error");
         }
@@ -62,6 +65,18 @@ export const LoginForm = ({ navigation }) => {
             .required('a'),
     })
 
+    useEffect(() => {
+        const unsuscribe = auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                navigation.navigate('ApplicationContent');
+            }
+        });
+
+        return () => {
+            unsuscribe();
+        }
+    }, [navigation]);
+
     return (
         <TouchableOpacity
             style={loginStack.mainView}
@@ -76,7 +91,7 @@ export const LoginForm = ({ navigation }) => {
                         <Text style={loginStack.formTitle}>Iniciar sesion</Text>
                     </View>
                     <Formik
-                        initialValues={{ email: 'agustin.rezett@gmail.com', password: 'Holaquetal_1' }}
+                        initialValues={{ email: '', password: '' }}
                         onSubmit={(values, { resetForm }) => {
                             submitForm(values)
                             //resetForm({ email: '', password: '' })
@@ -428,7 +443,7 @@ export const RegisterForm = ({ navigation }) => {
                                             onBlur={() => { handleBlur('password'), setFieldTouched('password'), blurInput("password", values.password) }}
                                             onPressIn={() => { setPasswordActive(true), moveUp('password') }}
                                             value={values.password.trim()}
-                                            style={[passwordActive ? loginStack.formInputPasswordActive : loginStack.formInputPassword, errors.password && touched.password ? { color: status.error } : null]}
+                                            style={inputStyles(passwordActive, errors.password && touched.password)}
                                         />
                                         <Ionicons
                                             style={[passwordActive ? { borderBottomColor: logo.orange } : { borderBottomColor: text.placeholder }, { borderBottomWidth: 1, height: 40, width: 30, paddingTop: 7 }]}

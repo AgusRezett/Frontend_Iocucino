@@ -6,6 +6,7 @@ import AppLoading from 'expo-app-loading';
 // Components
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { LogBox } from 'react-native';
 
 // Functions
 import { AsyncGetSessionToken } from './app/functions/GlobalFunctions';
@@ -26,6 +27,8 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
     const [sessionToken, setSessionToken] = useState("")
+
+    LogBox.ignoreLogs(['Setting a timer', 'AsyncStorage has been extracted']);
 
     useEffect(() => {
         AsyncGetSessionToken().then(value => {

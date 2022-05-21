@@ -19,6 +19,7 @@ import * as yup from 'yup'
 // Styles
 import { loginStack } from '../../shared/styles/loginStack';
 import { logo, status, text } from '../../shared/styles/colors';
+import { createNewUser } from '../../database/requests';
 
 export const Register3 = ({ navigation, route }) => {
     const { userValues } = route.params;
@@ -31,9 +32,10 @@ export const Register3 = ({ navigation, route }) => {
         userValues.phone = values.phone;
         userValues.country = values.country
         console.log(userValues)
-        navigation.navigate('ApplicationContent');
+
+        createNewUser(userValues)
         //navigation.navigate('Validation');
-        AsyncSetSessionToken("patata");
+        //AsyncSetSessionToken("patata");
     }
 
     const loginValidationSchema = yup.object().shape({

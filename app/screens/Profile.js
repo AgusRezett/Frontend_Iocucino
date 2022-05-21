@@ -17,6 +17,7 @@ import { AsyncSetSessionToken } from '../functions/GlobalFunctions';
 // Icons
 import ClapHandsIcon from '../../assets/icons/clapping-hands.svg';
 import LogOutIcon from '../../assets/icons/log-out.svg';
+import { auth } from '../database/firebase';
 
 
 export default function Profile() {
@@ -26,7 +27,12 @@ export default function Profile() {
     const logOut = () => {
         Vibration.vibrate(20);
         AsyncSetSessionToken('');
-        navigation.navigate('Login');
+        auth.signOut().then(() => {
+            navigation.replace('Login');
+        })
+            .catch(error => {
+                console.log(error);
+            });
     }
 
     return (
@@ -45,7 +51,7 @@ export default function Profile() {
             <View style={styles.profileInfo}>
                 <View style={{ flexDirection: "row" }}>
                     <Text style={styles.profileAttribute}>Correo: </Text>
-                    <Text style={styles.profileAttributeValue}>agustin.rezett@gmail.com</Text>
+                    <Text style={styles.profileAttributeValue}>{auth.currentUser?.email}</Text>
                 </View>
                 <View style={{ flexDirection: "row" }}>
                     <Text style={styles.profileAttribute}>Teléfono: </Text>

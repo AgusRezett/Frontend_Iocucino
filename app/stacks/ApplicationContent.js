@@ -21,9 +21,14 @@ import WalletIcon from '../../assets/icons/wallet.svg';
 import SettingsIcon from '../../assets/icons/config.svg';
 import ProfileIcon from '../../assets/icons/profile.svg';
 
+// Database
+import { getUserData } from '../database/requests';
+import { useEffect, useState } from 'react';
+
 const Tab = createBottomTabNavigator();
 
 export default function ApplicationContent() {
+    const [userData, setUserData] = useState(null);
     const navigation = useNavigation();
     const [fontsLoaded] = useFonts({
         /* 'RooneySans-Light': require('./assets/fonts/rooneysans/RooneySansLight.woff'),
@@ -57,6 +62,17 @@ export default function ApplicationContent() {
             </TouchableOpacity>
         )
     };
+
+
+    useEffect(() => {
+        getUserData().then(data => {
+            setUserData(data);
+        });
+
+        return () => {
+        }
+    }, [getUserData, setUserData]);
+
 
     if (!fontsLoaded) {
         return <AppLoading />;
