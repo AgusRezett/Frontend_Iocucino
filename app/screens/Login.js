@@ -9,6 +9,8 @@ import { Register2 } from './Registro/Register2';
 import { Register3 } from './Registro/Register3';
 import { Validation } from './Validation';
 import { DocumentValidation } from './DocumentValidation';
+import { FaceValidation } from './FaceValidation';
+import { ValidationWaiting } from './ValidationWaiting';
 
 const Stack = createNativeStackNavigator();
 
@@ -47,7 +49,9 @@ export default function Login() {
             <Stack.Screen name="Register2" component={Register2} />
             <Stack.Screen name="Register3" component={Register3} />
             <Stack.Screen name="Validation" component={Validation} />
+            <Stack.Screen name="ValidationWaiting" component={ValidationWaiting} />
             <Stack.Screen name="DocumentValidation" component={DocumentValidation} />
+            <Stack.Screen name="FaceValidation" component={FaceValidation} />
         </Stack.Navigator>
     )
 }

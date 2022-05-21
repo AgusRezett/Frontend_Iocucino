@@ -1,14 +1,12 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import {
     StyleSheet,
     View,
     Text,
     TouchableOpacity,
-    TouchableHighlight,
     Vibration,
     Keyboard,
     Image,
-    Alert
 } from 'react-native';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -16,48 +14,29 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as ImagePicker from "expo-image-picker";
 import { loginStack } from '../shared/styles/loginStack';
 import { logo, text } from '../shared/styles/colors';
-
-// Images
-// import Illustration from '../../assets/illustration/security.svg';
-
+import * as ImageManipulator from 'expo-image-manipulator';
 
 let openGallery = async (setImageAction) => {
-    let permissionResult = null;
-    permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-    if (!permissionResult.granted) {
-        Alert.alert("Permisos denegados", "Debes conceder los permisos para acceder a la galería de fotos.", [{ text: "OK" }]);
-        return false;
-    } else {
-        let pickerResult = await ImagePicker.launchImageLibraryAsync({
-            allowsEditing: true,
-            aspect: [4, 3],
-            base64: true
-        });
-        if (!pickerResult.cancelled) {
-            setImageAction({ localUri: pickerResult.uri });
-        }
+    let pickerResult = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+        base64: true
+    });
+    if (!pickerResult.cancelled) {
+        setImageAction({ localUri: pickerResult.uri });
     }
 };
 
 let openCamera = async (setImageAction) => {
-    let permissionResult = null;
-    permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-
-    if (!permissionResult.granted) {
-        Alert.alert("Permisos denegados", "Debes conceder los permisos para acceder a la cámara.", [{ text: "OK" }]);
-        return false;
-    } else {
-        let pickerResult = await ImagePicker.launchCameraAsync({
-            allowsEditing: true,
-            aspect: [4, 4],
-            base64: true
-        });
-        if (!pickerResult.cancelled) {
-            setImageAction({ localUri: pickerResult.uri });
-        }
-    }
+    let pickerResult = await ImagePicker.launchCameraAsync({
+        allowsEditing: false,
+        aspect: [4, 4]
+    });
+    if (!pickerResult.cancelled) {
+        manipResult(pickerResult.uri, setImageAction);
+    };
 }
+
 
 const execAction = (action, setImageAction) => {
     Vibration.vibrate(20);
@@ -71,6 +50,16 @@ const execAction = (action, setImageAction) => {
         default:
             break;
     }
+}
+
+const manipResult = async (imageUri, setImageAction) => {
+    const manipResult = await ImageManipulator.manipulateAsync(
+        imageUri,
+        [{ resize: { width: 640 } }],
+        { format: 'png' },
+    );
+
+    setImageAction({ localUri: manipResult.uri })
 }
 
 const OptionsPicker = ({ setImageAction }) => {
@@ -103,6 +92,7 @@ const OptionsPicker = ({ setImageAction }) => {
 export const DocumentValidation = ({ navigation }) => {
     const [dniFrenteImage, setDniFrenteImage] = useState(null)
     const [dniDorsoImage, setDniDorsoImage] = useState(null)
+    const [isValid, setIsValid] = useState(false)
 
     /* const submitForm = (values) => {
                 Vibration.vibrate(20);
@@ -110,6 +100,15 @@ export const DocumentValidation = ({ navigation }) => {
         //AsyncSetSessionToken("patata");
         //navigation.navigate('ApplicationContent');
     } */
+
+    useEffect(() => {
+        if (dniFrenteImage && dniDorsoImage) {
+            setIsValid(true)
+        } else {
+            setIsValid(false)
+        }
+    }, [dniFrenteImage, dniDorsoImage, setIsValid])
+
 
     return (
         <TouchableOpacity
@@ -180,11 +179,12 @@ export const DocumentValidation = ({ navigation }) => {
                     </View>
                     <View style={{ width: "100%" }}>
                         <TouchableOpacity
-                            style={loginStack.submitBtn}
+                            style={isValid ? loginStack.submitBtn : loginStack.submitBtnDisabled}
                             onPress={() => {
                                 Vibration.vibrate(20);
-                                navigation.navigate('ApplicationContent');
+                                navigation.navigate('FaceValidation');
                             }}
+                            disabled={!isValid}
                         >
                             <Text style={loginStack.submitBtnText}>Siguiente</Text>
                         </TouchableOpacity>

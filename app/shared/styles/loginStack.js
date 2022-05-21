@@ -205,7 +205,7 @@ export const loginStack = StyleSheet.create({
     submitBtnDisabled: {
         width: '100%',
         height: 50,
-        backgroundColor: text.placeholder,
+        backgroundColor: text.placeholderInverted,
         borderRadius: 6,
         alignItems: 'center',
         justifyContent: 'center',
