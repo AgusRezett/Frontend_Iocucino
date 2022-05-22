@@ -30,7 +30,6 @@ export const FaceValidation = ({ navigation }) => {
     const submitForm = () => {
         Vibration.vibrate(20);
         console.log(photosTaken);
-        //AsyncSetSessionToken("patata");
         //navigation.navigate('ApplicationContent');
     }
 

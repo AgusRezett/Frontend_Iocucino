@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import {
+    ActivityIndicator,
     StyleSheet,
     View,
     Text,
@@ -13,8 +14,10 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 // Components
 import * as ImagePicker from "expo-image-picker";
 import { loginStack } from '../shared/styles/loginStack';
-import { logo, text } from '../shared/styles/colors';
+import { background, logo, text } from '../shared/styles/colors';
 import * as ImageManipulator from 'expo-image-manipulator';
+import { getUserData, uploadImage } from '../database/requests';
+import * as Progress from 'react-native-progress';
 
 let openGallery = async (setImageAction) => {
     let pickerResult = await ImagePicker.launchImageLibraryAsync({
@@ -37,7 +40,6 @@ let openCamera = async (setImageAction) => {
     };
 }
 
-
 const execAction = (action, setImageAction) => {
     Vibration.vibrate(20);
     switch (action) {
@@ -59,7 +61,7 @@ const manipResult = async (imageUri, setImageAction) => {
         { format: 'png' },
     );
 
-    setImageAction({ localUri: manipResult.uri })
+    setImageAction(manipResult.uri);
 }
 
 const OptionsPicker = ({ setImageAction }) => {
@@ -91,15 +93,33 @@ const OptionsPicker = ({ setImageAction }) => {
 
 export const DocumentValidation = ({ navigation }) => {
     const [dniFrenteImage, setDniFrenteImage] = useState(null)
+    const [dniFrenteUploadStatus, setDniFrenteUploadStatus] = useState(0)
     const [dniDorsoImage, setDniDorsoImage] = useState(null)
+    const [dniDorsoUploadStatus, setDniDorsoUploadStatus] = useState(0)
     const [isValid, setIsValid] = useState(false)
+    const [filesUploading, setFilesUploading] = useState(false)
 
-    /* const submitForm = (values) => {
-                Vibration.vibrate(20);
-            console.log(userValues)
-        //AsyncSetSessionToken("patata");
-        //navigation.navigate('ApplicationContent');
-    } */
+    const submitForm = () => {
+        Vibration.vibrate(20);
+
+        getUserData().then(
+            (userData) => {
+                const userDocument = userData.document;
+                uploadImage(setFilesUploading, dniFrenteImage.localUri, userDocument, userDocument + '_dni_frente' + '.png', setDniFrenteUploadStatus).then((response) => {
+                    uploadImage(setFilesUploading, dniDorsoImage.localUri, userDocument, userDocument + '_dni_dorso' + '.png', setDniDorsoUploadStatus).then((response) => {
+                        setFilesUploading(false);
+                        navigation.navigate('FaceValidation');
+                    }).catch((error) => {
+                        setFilesUploading(false);
+                        console.log(error);
+                    });
+                }).catch((error) => {
+                    setFilesUploading(false);
+                    console.log(error);
+                })
+            }
+        );
+    }
 
     useEffect(() => {
         if (dniFrenteImage && dniDorsoImage) {
@@ -127,7 +147,7 @@ export const DocumentValidation = ({ navigation }) => {
                                     <>
                                         <TouchableOpacity
                                             style={styles.restartBtn}
-                                            onPress={() => { Vibration.vibrate(20), setDniFrenteImage(null) }}
+                                            onPress={() => { Vibration.vibrate(20), setDniFrenteImage(null), setDniFrenteUploadStatus(0) }}
                                         >
                                             <MaterialCommunityIcons
                                                 name="restart"
@@ -135,6 +155,12 @@ export const DocumentValidation = ({ navigation }) => {
                                                 color={text.principal}
                                             />
                                         </TouchableOpacity>
+                                        <Progress.Bar
+                                            progress={dniFrenteUploadStatus}
+                                            style={styles.progressBar}
+                                            borderColor={logo.purple}
+                                            color={logo.orange}
+                                        />
                                         <View style={styles.imagePlace}>
                                             <Image
                                                 source={{ uri: dniFrenteImage.localUri }}
@@ -155,7 +181,7 @@ export const DocumentValidation = ({ navigation }) => {
                                     <>
                                         <TouchableOpacity
                                             style={styles.restartBtn}
-                                            onPress={() => { Vibration.vibrate(20), setDniDorsoImage(null) }}
+                                            onPress={() => { Vibration.vibrate(20), setDniDorsoImage(null), setDniDorsoUploadStatus(0) }}
                                         >
                                             <MaterialCommunityIcons
                                                 name="restart"
@@ -169,6 +195,12 @@ export const DocumentValidation = ({ navigation }) => {
                                                 style={styles.pickerImage}
                                             />
                                         </View>
+                                        <Progress.Bar
+                                            progress={dniDorsoUploadStatus}
+                                            style={styles.progressBar}
+                                            borderColor={logo.purple}
+                                            color={logo.orange}
+                                        />
                                     </>
                                     :
                                     <OptionsPicker
@@ -182,11 +214,16 @@ export const DocumentValidation = ({ navigation }) => {
                             style={isValid ? loginStack.submitBtn : loginStack.submitBtnDisabled}
                             onPress={() => {
                                 Vibration.vibrate(20);
-                                navigation.navigate('FaceValidation');
+                                submitForm();
                             }}
                             disabled={!isValid}
                         >
-                            <Text style={loginStack.submitBtnText}>Siguiente</Text>
+                            {
+                                filesUploading ?
+                                    <ActivityIndicator size="small" color={background.principal} />
+                                    :
+                                    <Text style={loginStack.submitBtnText}>Siguiente</Text>
+                            }
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -228,9 +265,9 @@ const styles = StyleSheet.create({
         height: 150,
         borderRadius: 10,
         resizeMode: 'cover',
-        borderColor: logo.purple,
-        borderWidth: 2,
-        borderStyle: 'dashed',
+        borderColor: text.placeholderInverted,
+        borderWidth: 1,
+        borderStyle: 'solid',
         overflow: 'hidden',
     },
     pickerImage: {
@@ -256,5 +293,13 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: -35,
         textAlign: 'center',
+    },
+    progressBar: {
+        position: 'absolute',
+        bottom: -20,
+        width: '100%',
+        height: "auto",
+        borderRadius: 10,
+        overflow: 'hidden',
     },
 })

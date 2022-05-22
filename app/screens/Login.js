@@ -1,4 +1,3 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 // Components
 import { createNativeStackNavigator } from '@react-navigation/native-stack';

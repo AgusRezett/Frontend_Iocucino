@@ -7,7 +7,6 @@ import { Formik } from 'formik';
 import * as yup from 'yup'
 
 // Functions
-import { AsyncSetSessionToken } from '../../../functions/GlobalFunctions';
 
 // Styles
 import { loginStack } from '../../styles/loginStack';
@@ -16,6 +15,7 @@ import { logo, status, text } from '../../styles/colors';
 // Database
 import { getDbConnection, loginDatabase } from '../../../database';
 import { auth } from '../../../database/firebase';
+import { getUserData } from '../../../database/requests';
 
 export const LoginForm = ({ navigation }) => {
     const [emailActive, setEmailActive] = useState(false);
@@ -44,12 +44,7 @@ export const LoginForm = ({ navigation }) => {
     const submitForm = async (values) => {
         Vibration.vibrate(20);
         try {
-            auth.signInWithEmailAndPassword(values.email, values.password)
-                .then(async (user) => {
-                    await AsyncSetSessionToken(user.user.uid);
-                })
-            //console.log('Login success');
-            //AsyncSetSessionToken("patata");
+            auth.signInWithEmailAndPassword(values.email, values.password);
         } catch (error) {
             console.log("Hubo un error");
         }
@@ -68,7 +63,24 @@ export const LoginForm = ({ navigation }) => {
     useEffect(() => {
         const unsuscribe = auth.onAuthStateChanged(async (user) => {
             if (user) {
-                navigation.navigate('ApplicationContent');
+                getUserData().then(
+                    (userData) => {
+                        navigation.navigate('DocumentValidation');
+                        /* switch (userData.status.account) {
+                            case "created":
+                                navigation.navigate('Validation');
+                                break;
+                            case "unverified":
+                                navigation.navigate('Validation');
+                                break;
+                            case "verified":
+                                navigation.navigate('ApplicationContent');
+                                break;
+                            default:
+                                break;
+                        } */
+                    }
+                );
             }
         });
 

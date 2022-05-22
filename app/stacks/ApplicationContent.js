@@ -1,7 +1,3 @@
-import { TouchableOpacity, Vibration, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
@@ -13,7 +9,9 @@ import Settings from '../screens/Settings';
 import Profile from '../screens/Profile';
 
 // Components
+import { TouchableOpacity, Vibration, View } from 'react-native';
 import Topbar from '../shared/components/Navigation/Navbar/Topbar';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 // Icons
 import HomeIcon from '../../assets/icons/home.svg';
@@ -27,9 +25,8 @@ import { useEffect, useState } from 'react';
 
 const Tab = createBottomTabNavigator();
 
-export default function ApplicationContent() {
+export default function ApplicationContent({ navigation }) {
     const [userData, setUserData] = useState(null);
-    const navigation = useNavigation();
     const [fontsLoaded] = useFonts({
         /* 'RooneySans-Light': require('./assets/fonts/rooneysans/RooneySansLight.woff'),
         'RooneySans': require('./assets/fonts/rooneysans/RooneySansRegular.woff'),
@@ -62,7 +59,6 @@ export default function ApplicationContent() {
             </TouchableOpacity>
         )
     };
-
 
     useEffect(() => {
         getUserData().then(data => {

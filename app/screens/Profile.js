@@ -7,7 +7,6 @@ import Verified from '../../assets/images/verified.svg';
 import { ActionButton } from '../shared/components/common/ActionButton';
 
 import { useNavigation } from '@react-navigation/native';
-import { AsyncSetSessionToken } from '../functions/GlobalFunctions';
 
 // Styles
 
@@ -26,7 +25,6 @@ export default function Profile() {
 
     const logOut = () => {
         Vibration.vibrate(20);
-        AsyncSetSessionToken('');
         auth.signOut().then(() => {
             navigation.replace('Login');
         })

@@ -1,16 +1,14 @@
-import { useState, useRef } from 'react';
+
 import {
     Alert,
     StyleSheet,
     View,
     Text,
     TouchableOpacity,
-    TextInput,
     Vibration,
     Keyboard,
     Image
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 
 // Components
 import { loginStack } from '../shared/styles/loginStack';
@@ -38,9 +36,6 @@ export const Validation = ({ navigation }) => {
                 navigation.navigate('DocumentValidation');
             }
         }
-
-        //AsyncSetSessionToken("patata");
-        //navigation.navigate('ApplicationContent');
     }
 
     return (

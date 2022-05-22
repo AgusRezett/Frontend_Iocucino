@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+
 import {
     StyleSheet,
     View,
@@ -16,7 +16,6 @@ import { text } from '../shared/styles/colors';
 export const ValidationWaiting = ({ navigation }) => {
     const continueValidation = async () => {
         Vibration.vibrate(20);
-        //AsyncSetSessionToken("patata");
         navigation.navigate('Validation');
     }
 

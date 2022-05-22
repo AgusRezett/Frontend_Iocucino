@@ -1,6 +1,6 @@
 
 // Components
-import AsyncStorage from '@react-native-async-storage/async-storage';
+//import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Flags
 import Arg from '../../assets/svgs/flags/ar.svg';
@@ -17,27 +17,6 @@ import Jpn from '../../assets/svgs/flags/jp.svg';
 import Rus from '../../assets/svgs/flags/ru.svg';
 import Sau from '../../assets/svgs/flags/sa.svg';
 import Usa from '../../assets/svgs/flags/us.svg';
-
-
-export const AsyncSetSessionToken = async (token) => {
-    try {
-        await AsyncStorage.setItem('sessionToken', token);
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-export const AsyncGetSessionToken = async () => {
-    try {
-        let result;
-        await AsyncStorage.getItem('sessionToken').then((token) => {
-            result = token;
-        });
-        return result;
-    } catch (error) {
-        console.log(error);
-    }
-}
 
 export const badgeDictionary = (flagProps = null) => {
     return [

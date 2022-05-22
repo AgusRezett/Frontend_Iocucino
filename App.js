@@ -9,7 +9,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { LogBox } from 'react-native';
 
 // Functions
-import { AsyncGetSessionToken } from './app/functions/GlobalFunctions';
 import { getDbConnection, initDatabase } from './app/database';
 
 // Stacks
@@ -22,18 +21,15 @@ import Login from './app/screens/Login';
 // Reducers
 import { Provider as ReduxProvider } from 'react-redux';
 import store from './app/store';
+import { getUserData } from './app/database/requests';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-    const [sessionToken, setSessionToken] = useState("")
-
-    LogBox.ignoreLogs(['Setting a timer', 'AsyncStorage has been extracted']);
+    LogBox.ignoreLogs(['Setting a timer']);
+    //LogBox.ignoreAllLogs();
 
     useEffect(() => {
-        AsyncGetSessionToken().then(value => {
-            setSessionToken(value);
-        });
         //initDatabase();
     }, [])
 
@@ -60,7 +56,7 @@ export default function App() {
                 <NavigationContainer >
                     <LangProvider>
                         <Stack.Navigator
-                            initialRouteName={sessionToken ? 'ApplicationContent' : 'Login'}
+                            initialRouteName='Login'
                             screenOptions={{ headerShown: false }}
                         >
                             <Stack.Screen name="Login" component={Login} />

@@ -30,12 +30,8 @@ export const Register3 = ({ navigation, route }) => {
     const submitForm = (values) => {
         Vibration.vibrate(20);
         userValues.phone = values.phone;
-        userValues.country = values.country
-        console.log(userValues)
-
-        createNewUser(userValues)
-        //navigation.navigate('Validation');
-        //AsyncSetSessionToken("patata");
+        userValues.country = values.country;
+        createNewUser(userValues, navigation);
     }
 
     const loginValidationSchema = yup.object().shape({
