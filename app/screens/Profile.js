@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Vibration } from 'react-native';
 
 // Components
@@ -14,13 +14,16 @@ import { useNavigation } from '@react-navigation/native';
 //import { getSelectedBadges } from '../functions/HomeFunctions';
 
 // Icons
+import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import ClapHandsIcon from '../../assets/icons/clapping-hands.svg';
 import LogOutIcon from '../../assets/icons/log-out.svg';
 import { auth } from '../database/firebase';
+import { getUserData } from '../database/requests';
+import { background, logo, text } from '../shared/styles/colors';
 
 
-export default function Profile() {
-    const [isPress, setIsPress] = useState(false);
+export default function Profile({ route }) {
+    const { user } = route.params;
     const navigation = useNavigation();
 
     const logOut = () => {
@@ -36,13 +39,31 @@ export default function Profile() {
     return (
         <View style={styles.container}>
             <View style={styles.profilePerson}>
-                <Image style={styles.profilePersonImage} source={ProfileImage} />
-                <View style={styles.personInfoContainer}>
-                    <Text style={styles.profileName}>Agustin Nazareno Rezett</Text>
+                {
+                    user.photoURL ?
+                        <View style={styles.profileImage}>
 
+                            <Image
+                                source={{ uri: user.photoURL }}
+                                style={styles.profilePersonImage}
+                            />
+                        </View>
+                        :
+                        <View style={styles.profileDefault}>
+                            <View style={styles.cameraBtn}>
+                                <MaterialIcons name="camera-alt" size={20} color={text.principal} />
+                            </View>
+                            <Text style={styles.profileDefaultLetter}>{user.name.charAt(0).toUpperCase()}</Text>
+                        </View>
+                }
+                {/* <Image style={styles.profilePersonImage} source={ProfileImage} /> */}
+                <View style={styles.personInfoContainer}>
+                    <Text style={styles.profileName}>{`${user.name} ${user.surname}`}</Text>
                     <View style={{ flexDirection: "row" }}>
                         <Text style={styles.profileAttribute}>DNI: </Text>
-                        <Text style={styles.profileAttributeValue}>99-999-999</Text>
+                        <Text style={styles.profileAttributeValue}>
+                            {user.document.substring(0, 2) + "." + user.document.substring(2, 5) + "." + user.document.substring(5, 8)}
+                        </Text>
                     </View>
                 </View>
             </View>
@@ -53,11 +74,10 @@ export default function Profile() {
                 </View>
                 <View style={{ flexDirection: "row" }}>
                     <Text style={styles.profileAttribute}>Teléfono: </Text>
-                    <Text style={styles.profileAttributeValue}>+54 9 11 9999-9999</Text>
-                </View>
-                <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.profileAttribute}>Contraseña: </Text>
-                    <Text style={styles.profileAttributeValue}>**********</Text>
+                    <Text style={styles.profileAttributeValue}>{`+${user.country} ${
+                        //format phone
+                        user.phone.substring(0, 2) + " " + user.phone.substring(2, 6) + "-" + user.phone.substring(6, 10)
+                        }`}</Text>
                 </View>
             </View>
             <ActionButton title="Solicitar cambios" />
@@ -130,8 +150,42 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         resizeMode: 'cover',
     },
+    profileDefault: {
+        width: 80,
+        height: 80,
+        borderRadius: 50,
+        backgroundColor: logo.purple,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: background.naviconDisable,
+        borderWidth: 5,
+    },
+    cameraBtn: {
+        position: 'absolute',
+        bottom: -10,
+        right: -10,
+        width: 35,
+        height: 35,
+        borderRadius: 20,
+        backgroundColor: background.naviconDisable,
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: 'grey',
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 3.84,
+        elevation: 3,
+    },
+    profileDefaultLetter: {
+        fontSize: 40,
+        color: background.secondary,
+        fontFamily: 'RooneySans-Bold',
+    },
     personInfoContainer: {
-        marginLeft: 10,
+        marginLeft: 15,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'flex-start',
@@ -200,7 +254,7 @@ const styles = StyleSheet.create({
     },
     verifiedInfoContainer: {
         height: '100%',
-        marginRight: 10,
+        marginRight: 15,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'flex-end',

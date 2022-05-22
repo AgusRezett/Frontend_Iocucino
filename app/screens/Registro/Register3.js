@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import {
+    ActivityIndicator,
     View,
     Text,
     TouchableOpacity,
@@ -18,7 +19,7 @@ import * as yup from 'yup'
 
 // Styles
 import { loginStack } from '../../shared/styles/loginStack';
-import { logo, status, text } from '../../shared/styles/colors';
+import { background, logo, status, text } from '../../shared/styles/colors';
 import { createNewUser } from '../../database/requests';
 
 export const Register3 = ({ navigation, route }) => {
@@ -26,6 +27,7 @@ export const Register3 = ({ navigation, route }) => {
     const [phoneActive, setPhoneActive] = useState(false);
     const [termsChecked, setTermsChecked] = useState(false)
     const [policyChecked, setPolicyChecked] = useState(false)
+    const [registerLoading, setRegisterLoading] = useState(false)
 
     const submitForm = (values) => {
         Vibration.vibrate(20);
@@ -172,7 +174,12 @@ export const Register3 = ({ navigation, route }) => {
                                         </View>
                                     </View>
                                     <TouchableOpacity style={isValid ? loginStack.submitBtn : loginStack.submitBtnDisabled} onPress={handleSubmit} disabled={!isValid}>
-                                        <Text style={loginStack.submitBtnText}>Continuar</Text>
+                                        {
+                                            registerLoading ?
+                                                <ActivityIndicator size='small' color={background.principal} />
+                                                :
+                                                <Text style={loginStack.submitBtnText}>Continuar</Text>
+                                        }
                                     </TouchableOpacity>
                                 </View>
                             </View>

@@ -64,9 +64,6 @@ export default function ApplicationContent({ navigation }) {
         getUserData().then(data => {
             setUserData(data);
         });
-
-        return () => {
-        }
     }, [getUserData, setUserData]);
 
 
@@ -132,6 +129,7 @@ export default function ApplicationContent({ navigation }) {
                     <Tab.Screen
                         name="Profile"
                         component={Profile}
+                        initialParams={{ user: userData }}
                         options={{
                             tabBarIcon: ({ focused }) => (
                                 <TabIcon routeName={'Profile'} focused={focused} Icon={ProfileIcon}></TabIcon>

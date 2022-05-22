@@ -44,14 +44,18 @@ export const createNewUser = async (userData, navigation) => {
 }
 
 export const updateUserStatus = async (statusKey, statusValue, navigation) => {
-    await firebase.firestore().collection('users').doc(`${auth.currentUser.uid}`).update({
-        status: {
-            account: 'unverified',
-        }
-    }).then(() => {
-        navigation.navigate('ValidationComplete');
-    }).catch(error => {
-        console.error("Error updating document: ", error);
+    getUserData().then(async (userData) => {
+        console.log(userData.status);
+        await firebase.firestore().collection('users').doc(`${auth.currentUser.uid}`).update({
+            status: {
+                ...userData.state,
+                [statusKey]: statusValue
+            }
+        }).then(() => {
+            navigation.navigate('ValidationComplete');
+        }).catch(error => {
+            console.error("Error updating document: ", error);
+        });
     });
 }
 
