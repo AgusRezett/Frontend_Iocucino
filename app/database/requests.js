@@ -16,7 +16,7 @@ export const getUserData = async () => {
     return userData;
 }
 
-export const createNewUser = async (userData, navigation) => {
+export const createNewUser = async (userData, navigation, setRegisterLoading) => {
     auth.createUserWithEmailAndPassword(userData.email, userData.password)
         .then(async () => {
             await firebase.firestore().collection('users').doc(`${auth.currentUser.uid}`).set({
@@ -30,29 +30,26 @@ export const createNewUser = async (userData, navigation) => {
                     account: 'created',
                     email: 'unverified',
                     phone: 'unverified'
-                }
+                },
+                photoUrl: ''
             }).then(() => {
+                setRegisterLoading(false);
                 navigation.navigate('Validation');
             }).catch(error => {
                 console.error("Error adding document: ", error);
             });
         })
         .catch(error => {
-            //Alert.alert('Error', error.message, [{ text: 'OK' }], { cancelable: false });
             console.log(error);
         });
 }
 
 export const updateUserStatus = async (statusKey, statusValue, navigation) => {
     getUserData().then(async (userData) => {
-        console.log(userData.status);
+        const newStatus = { ...userData.status, [statusKey]: statusValue };
+
         await firebase.firestore().collection('users').doc(`${auth.currentUser.uid}`).update({
-            status: {
-                ...userData.state,
-                [statusKey]: statusValue
-            }
-        }).then(() => {
-            navigation.navigate('ValidationComplete');
+            status: newStatus
         }).catch(error => {
             console.error("Error updating document: ", error);
         });

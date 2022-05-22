@@ -33,18 +33,21 @@ export const FaceValidation = ({ navigation, route }) => {
 
     let cameraRef = useRef();
 
-    const submitForm = () => {
+    const submitForm = async () => {
         Vibration.vibrate(20);
         photosTaken.forEach(async (photo, index) => {
             await uploadImage(setFilesUploading, photo, userDocument, userDocument + '_face_' + index + '.png', setUploadProgress)
                 .then(() => {
                     setFilesUploading(false);
-                    updateUserStatus('account', 'unverified', navigation);
                 })
                 .catch(error => {
                     console.log(error);
                 });
-        });
+        })
+        await updateUserStatus('account', 'unverified')
+            .then(() => {
+                navigation.navigate('ValidationComplete');
+            })
     }
 
     async function playSound() {

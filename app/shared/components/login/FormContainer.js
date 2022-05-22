@@ -11,7 +11,7 @@ import * as LocalAuthentication from 'expo-local-authentication';
 
 // Styles
 import { loginStack } from '../../styles/loginStack';
-import { logo, status, text } from '../../styles/colors';
+import { background, logo, status, text } from '../../styles/colors';
 
 // Database
 import { getDbConnection, loginDatabase } from '../../../database';
@@ -19,7 +19,7 @@ import { auth } from '../../../database/firebase';
 import { getUserData } from '../../../database/requests';
 
 export const LoginForm = ({ navigation }) => {
-    const [isGettingUserData, setIsGettingUserData] = useState(true);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [emailActive, setEmailActive] = useState(false);
     const [passwordActive, setPasswordActive] = useState(false);
     const [passwordVisible, setPasswordVisible] = useState(false);
@@ -44,10 +44,12 @@ export const LoginForm = ({ navigation }) => {
     }
 
     const submitForm = async (values) => {
+        setIsSubmitting(true);
         Vibration.vibrate(20);
         try {
             auth.signInWithEmailAndPassword(values.email, values.password)
                 .then(async () => {
+                    setIsSubmitting(false);
                     navigation.navigate('ApplicationContent');
                 })
                 .catch(async (error) => {
@@ -92,7 +94,6 @@ export const LoginForm = ({ navigation }) => {
             if (user) {
                 getUserData().then(
                     (userData) => {
-                        setIsGettingUserData(false);
                         switch (userData.status.account) {
                             case "created":
                                 navigation.navigate('Validation');
@@ -199,7 +200,12 @@ export const LoginForm = ({ navigation }) => {
                                     </View>
                                 </View>
                                 <TouchableOpacity style={isValid ? loginStack.submitBtn : loginStack.submitBtnDisabled} onPress={handleSubmit} disabled={!isValid}>
-                                    <Text style={loginStack.submitBtnText}>Ingresar</Text>
+                                    {
+                                        isSubmitting ?
+                                            <ActivityIndicator size="small" color={background.principal} />
+                                            :
+                                            <Text style={loginStack.submitBtnText}>Ingresar</Text>
+                                    }
                                 </TouchableOpacity>
                             </>
                         )}

@@ -23,17 +23,18 @@ import { background, logo, status, text } from '../../shared/styles/colors';
 import { createNewUser } from '../../database/requests';
 
 export const Register3 = ({ navigation, route }) => {
+    const [registerLoading, setRegisterLoading] = useState(false)
     const { userValues } = route.params;
     const [phoneActive, setPhoneActive] = useState(false);
     const [termsChecked, setTermsChecked] = useState(false)
     const [policyChecked, setPolicyChecked] = useState(false)
-    const [registerLoading, setRegisterLoading] = useState(false)
 
     const submitForm = (values) => {
+        setRegisterLoading(true)
         Vibration.vibrate(20);
         userValues.phone = values.phone;
         userValues.country = values.country;
-        createNewUser(userValues, navigation);
+        createNewUser(userValues, navigation, setRegisterLoading);
     }
 
     const loginValidationSchema = yup.object().shape({
