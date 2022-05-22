@@ -1,5 +1,5 @@
-import * as firebase from "firebase";
-import { auth } from "./firebase";
+
+import { auth, firebase } from "./firebase";
 import { Alert } from "react-native";
 
 export const getUserData = async () => {
