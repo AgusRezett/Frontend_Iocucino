@@ -65,7 +65,7 @@ export const LoginForm = ({ navigation }) => {
             if (user) {
                 getUserData().then(
                     (userData) => {
-                        navigation.navigate('DocumentValidation');
+                        navigation.navigate('FaceValidation');
                         /* switch (userData.status.account) {
                             case "created":
                                 navigation.navigate('Validation');

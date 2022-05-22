@@ -108,7 +108,7 @@ export const DocumentValidation = ({ navigation }) => {
                 uploadImage(setFilesUploading, dniFrenteImage.localUri, userDocument, userDocument + '_dni_frente' + '.png', setDniFrenteUploadStatus).then((response) => {
                     uploadImage(setFilesUploading, dniDorsoImage.localUri, userDocument, userDocument + '_dni_dorso' + '.png', setDniDorsoUploadStatus).then((response) => {
                         setFilesUploading(false);
-                        navigation.navigate('FaceValidation');
+                        navigation.navigate('FaceValidation', { userDocument: userDocument });
                     }).catch((error) => {
                         setFilesUploading(false);
                         console.log(error);

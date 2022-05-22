@@ -1,40 +1,54 @@
 import { useState, useRef, useEffect } from 'react';
 import {
+    ActivityIndicator,
     StyleSheet,
     View,
     Text,
     TouchableOpacity,
-    TouchableHighlight,
     Vibration,
     Keyboard,
-    Image,
     Alert
 } from 'react-native';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 // Components
-import * as ImagePicker from "expo-image-picker";
 import { loginStack } from '../shared/styles/loginStack';
-import { logo, text } from '../shared/styles/colors';
+import { background, logo, text } from '../shared/styles/colors';
 import { Camera } from 'expo-camera';
 import * as FaceDetector from 'expo-face-detector';
 import { Audio } from 'expo-av';
+import * as ImageManipulator from 'expo-image-manipulator';
+import { uploadImage } from '../database/requests';
+import * as Progress from 'react-native-progress';
 
-export const FaceValidation = ({ navigation }) => {
+export const FaceValidation = ({ navigation, route }) => {
+    //const { userDocument } = route.params;
+    const userDocument = "66666666"
+
     const [faceDetected, setFaceDetected] = useState(false);
     const [sound, setSound] = useState();
     const [photosTaken, setPhotosTaken] = useState([]);
     const [currentStep, setCurrentStep] = useState(0);
+    const [filesUploading, setFilesUploading] = useState(false)
+    const [uploadProgress, setUploadProgress] = useState(0)
+
     let cameraRef = useRef();
 
     const submitForm = () => {
         Vibration.vibrate(20);
-        console.log(photosTaken);
-        //navigation.navigate('ApplicationContent');
+        photosTaken.forEach(async (photo, index) => {
+            await uploadImage(setFilesUploading, photo, userDocument, userDocument + '_face_' + index + '.png', setUploadProgress)
+                .then(() => {
+                    setFilesUploading(false);
+                    //navigation.navigate('ApplicationContent');
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        });
     }
 
     async function playSound() {
-        console.log('Loading Sound');
         const { sound } = await Audio.Sound.createAsync(
             require('../../assets/sounds/next_step.mp3'),
         );
@@ -67,9 +81,18 @@ export const FaceValidation = ({ navigation }) => {
             if (cameraRef) {
                 const options = { quality: 1 };
                 let photo = await cameraRef.current.takePictureAsync(options);
-                setPhotosTaken([...photosTaken, photo]);
+                manipResult(photo.uri, setPhotosTaken);
             }
         }
+    }
+
+    const manipResult = async (imageUri, setImageAction) => {
+        const manipResult = await ImageManipulator.manipulateAsync(
+            imageUri,
+            [{ resize: { width: 640 } }],
+            { format: 'png' },
+        );
+        setImageAction([...photosTaken, manipResult.uri]);
     }
 
     useEffect(() => {
@@ -156,27 +179,46 @@ export const FaceValidation = ({ navigation }) => {
                         currentStep < 3 ?
                             <View style={{ width: "100%" }}>
                                 <TouchableOpacity
-                                    style={styles.nextBtn}
+                                    style={styles.takePictureBtn}
                                     onPress={() => {
                                         Vibration.vibrate(20);
                                         startPhotoSession();
                                     }}
                                 >
-                                    <Text style={loginStack.submitBtnText}>Comenzar</Text>
+                                    <View style={styles.takePictureBtnInside}></View>
                                 </TouchableOpacity>
                             </View>
                             :
-                            <View style={{ width: "100%" }}>
-                                <TouchableOpacity
-                                    style={loginStack.submitBtn}
-                                    onPress={() => {
-                                        Vibration.vibrate(20);
-                                        submitForm();
-                                    }}
-                                >
-                                    <Text style={loginStack.submitBtnText}>Finalizar</Text>
-                                </TouchableOpacity>
-                            </View>
+                            <>
+                                <Progress.Bar
+                                    progress={uploadProgress}
+                                    style={{ width: '100%' }}
+                                    color={logo.orange}
+                                    borderColor={logo.orange}
+                                />
+                                <View style={{ width: "100%" }}>
+                                    <TouchableOpacity
+                                        style={{ ...loginStack.submitBtn, backgroundColor: uploadProgress == 100 ? logo.orange : logo.purple }}
+                                        onPress={() => {
+                                            Vibration.vibrate(20);
+                                            submitForm();
+                                        }}
+                                        activeOpacity={0.7}
+                                    >
+                                        {
+                                            filesUploading ?
+                                                <ActivityIndicator size="small" color={background.principal} />
+                                                :
+                                                uploadProgress == 100 ?
+                                                    <Text style={loginStack.submitBtnText}>Finalizar</Text>
+                                                    :
+                                                    <Text style={loginStack.submitBtnText}>
+                                                        Enviar
+                                                    </Text>
+                                        }
+                                    </TouchableOpacity>
+                                </View>
+                            </>
                     }
                 </View>
             </View >
@@ -265,6 +307,30 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginBottom: 2,
     },
+    takePictureBtn: {
+        width: 80,
+        height: 80,
+        borderRadius: 40,
+        borderColor: '#e6e6e6',
+        borderWidth: 5,
+
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        overflow: 'hidden',
+    },
+    takePictureBtnInside: {
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        backgroundColor: '#fff',
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        overflow: 'hidden',
+    },
+
+
     nextBtn: {
         width: '100%',
         height: 50,
