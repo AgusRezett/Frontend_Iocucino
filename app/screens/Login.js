@@ -6,10 +6,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { LoginForm, RegisterForm } from '../shared/components/login/FormContainer';
 import { Register2 } from './Registro/Register2';
 import { Register3 } from './Registro/Register3';
-import { Validation } from './Validation';
-import { DocumentValidation } from './DocumentValidation';
-import { FaceValidation } from './FaceValidation';
-import { ValidationWaiting } from './ValidationWaiting';
+import { Validation } from './Registro/Validation';
+import { ValidationWaiting } from './Registro/ValidationWaiting';
+import { ValidationComplete } from './Registro/ValidationComplete';
+import { DocumentValidation } from './Registro/DocumentValidation';
+import { FaceValidation } from './Registro/FaceValidation';
 
 const Stack = createNativeStackNavigator();
 
@@ -51,6 +52,7 @@ export default function Login() {
             <Stack.Screen name="ValidationWaiting" component={ValidationWaiting} />
             <Stack.Screen name="DocumentValidation" component={DocumentValidation} />
             <Stack.Screen name="FaceValidation" component={FaceValidation} />
+            <Stack.Screen name="ValidationComplete" component={ValidationComplete} />
         </Stack.Navigator>
     )
 }

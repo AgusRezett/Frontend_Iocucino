@@ -65,20 +65,19 @@ export const LoginForm = ({ navigation }) => {
             if (user) {
                 getUserData().then(
                     (userData) => {
-                        navigation.navigate('FaceValidation');
-                        /* switch (userData.status.account) {
+                        switch (userData.status.account) {
                             case "created":
                                 navigation.navigate('Validation');
                                 break;
                             case "unverified":
-                                navigation.navigate('Validation');
+                                navigation.navigate('ValidationComplete');
                                 break;
                             case "verified":
                                 navigation.navigate('ApplicationContent');
                                 break;
                             default:
                                 break;
-                        } */
+                        }
                     }
                 );
             }

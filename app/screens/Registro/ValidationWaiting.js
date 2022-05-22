@@ -1,6 +1,5 @@
 
 import {
-    Alert,
     StyleSheet,
     View,
     Text,
@@ -11,31 +10,13 @@ import {
 } from 'react-native';
 
 // Components
-import { loginStack } from '../shared/styles/loginStack';
-import { text } from '../shared/styles/colors';
-import * as ImagePicker from "expo-image-picker";
+import { loginStack } from '../../shared/styles/loginStack';
+import { text } from '../../shared/styles/colors';
 
-// Images
-// import Illustration from '../../assets/illustration/security.svg';
-
-export const Validation = ({ navigation }) => {
-    const submitForm = async () => {
+export const ValidationWaiting = ({ navigation }) => {
+    const continueValidation = async () => {
         Vibration.vibrate(20);
-
-        let permissionResult = null;
-        permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (!permissionResult.granted) {
-            Alert.alert("Permisos denegados", "Debes conceder los permisos para continuar con el proceso.", [{ text: "OK" }]);
-            return false;
-        } else {
-            permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-            if (!permissionResult.granted) {
-                Alert.alert("Permisos denegados", "Debes conceder los permisos para continuar con el proceso.", [{ text: "OK" }]);
-                return false;
-            } else {
-                navigation.navigate('DocumentValidation');
-            }
-        }
+        navigation.navigate('Validation');
     }
 
     return (
@@ -50,14 +31,14 @@ export const Validation = ({ navigation }) => {
                     <View style={styles.illustrationContainer}>
                         <Image
                             style={styles.illustration}
-                            source={require('../../assets/illustration/mino-validating.png')}
+                            source={require('../../../assets/illustration/mino-waiting.png')}
                         />
                         <View style={styles.messageContainer}>
                             <Text style={styles.screenTitle}>
-                                Vamos a validar tu identidad
+                                Tomate tu tiempo...
                             </Text>
                             <Text style={styles.screenMessage}>
-                                Puede tomarte unos minutos. Asegurate de tener tu DNI a mano y tomá asiento en un lugar bien iluminado.
+                                Cuando estés list@ presioná el botón para continuar con el proceso de validación y terminar la verficiación de tu cuenta Mino.
                             </Text>
                         </View>
                     </View>
@@ -66,19 +47,10 @@ export const Validation = ({ navigation }) => {
                             style={loginStack.submitBtn}
                             onPress={() => {
                                 Vibration.vibrate(20);
-                                submitForm();
+                                continueValidation();
                             }}
                         >
-                            <Text style={loginStack.submitBtnText}>Comenzar</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.skipButton}
-                            onPress={() => {
-                                Vibration.vibrate(20);
-                                navigation.navigate('ValidationWaiting');
-                            }}
-                        >
-                            <Text style={styles.skipBtnText}>Omitir por ahora</Text>
+                            <Text style={loginStack.submitBtnText}>Continuar</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

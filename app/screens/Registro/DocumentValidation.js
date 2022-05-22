@@ -13,10 +13,10 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 // Components
 import * as ImagePicker from "expo-image-picker";
-import { loginStack } from '../shared/styles/loginStack';
-import { background, logo, text } from '../shared/styles/colors';
+import { loginStack } from '../../shared/styles/loginStack';
+import { background, logo, text } from '../../shared/styles/colors';
 import * as ImageManipulator from 'expo-image-manipulator';
-import { getUserData, uploadImage } from '../database/requests';
+import { getUserData, uploadImage } from '../../database/requests';
 import * as Progress from 'react-native-progress';
 
 let openGallery = async (setImageAction) => {

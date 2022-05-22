@@ -16,7 +16,7 @@ export const getUserData = async () => {
     return userData;
 }
 
-export const createNewUser = async (userData) => {
+export const createNewUser = async (userData, navigation) => {
     auth.createUserWithEmailAndPassword(userData.email, userData.password)
         .then(async () => {
             await firebase.firestore().collection('users').doc(`${auth.currentUser.uid}`).set({
@@ -26,18 +26,33 @@ export const createNewUser = async (userData) => {
                 phone: userData.phone,
                 document: userData.document,
                 gender: userData.gender,
-                verified: false
-            }).then(docRef => {
-                //navigation.navigate('Validation');
-                console.log("Document written with ID: ", docRef.id);
+                status: {
+                    account: 'created',
+                    email: 'unverified',
+                    phone: 'unverified'
+                }
+            }).then(() => {
+                navigation.navigate('Validation');
             }).catch(error => {
-                //console.error("Error adding document: ", error);
+                console.error("Error adding document: ", error);
             });
         })
         .catch(error => {
             //Alert.alert('Error', error.message, [{ text: 'OK' }], { cancelable: false });
             console.log(error);
         });
+}
+
+export const updateUserStatus = async (statusKey, statusValue, navigation) => {
+    await firebase.firestore().collection('users').doc(`${auth.currentUser.uid}`).update({
+        status: {
+            account: 'unverified',
+        }
+    }).then(() => {
+        navigation.navigate('ValidationComplete');
+    }).catch(error => {
+        console.error("Error updating document: ", error);
+    });
 }
 
 export const uploadImage = async (setFilesUploading, imageUri, userDocument, imageName, changeUploadStatus) => {

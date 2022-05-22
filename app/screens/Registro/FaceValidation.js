@@ -12,18 +12,17 @@ import {
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 // Components
-import { loginStack } from '../shared/styles/loginStack';
-import { background, logo, text } from '../shared/styles/colors';
+import { loginStack } from '../../shared/styles/loginStack';
+import { background, logo, text } from '../../shared/styles/colors';
 import { Camera } from 'expo-camera';
 import * as FaceDetector from 'expo-face-detector';
 import { Audio } from 'expo-av';
 import * as ImageManipulator from 'expo-image-manipulator';
-import { uploadImage } from '../database/requests';
+import { updateUserStatus, uploadImage } from '../../database/requests';
 import * as Progress from 'react-native-progress';
 
 export const FaceValidation = ({ navigation, route }) => {
-    //const { userDocument } = route.params;
-    const userDocument = "66666666"
+    const { userDocument } = route.params;
 
     const [faceDetected, setFaceDetected] = useState(false);
     const [sound, setSound] = useState();
@@ -40,7 +39,7 @@ export const FaceValidation = ({ navigation, route }) => {
             await uploadImage(setFilesUploading, photo, userDocument, userDocument + '_face_' + index + '.png', setUploadProgress)
                 .then(() => {
                     setFilesUploading(false);
-                    //navigation.navigate('ApplicationContent');
+                    updateUserStatus('account', 'unverified', navigation);
                 })
                 .catch(error => {
                     console.log(error);
@@ -50,7 +49,7 @@ export const FaceValidation = ({ navigation, route }) => {
 
     async function playSound() {
         const { sound } = await Audio.Sound.createAsync(
-            require('../../assets/sounds/next_step.mp3'),
+            require('../../../assets/sounds/next_step.mp3'),
         );
         setSound(sound);
         await sound.playAsync();
