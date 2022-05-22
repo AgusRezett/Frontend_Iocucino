@@ -24,7 +24,8 @@
 				"foregroundImage": "./assets/adaptive-icon.png",
 				"backgroundColor": "#FFFFFF"
 			},
-			"softwareKeyboardLayoutMode": "pan"
+			"softwareKeyboardLayoutMode": "pan",
+			"permissions": ["USE_FINGERPRINT"]
 		},
 		"web": {
 			"favicon": "./assets/favicon.png"

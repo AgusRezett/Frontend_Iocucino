@@ -1,10 +1,11 @@
 import { useEffect, useState, useRef } from 'react';
 
 // Components
-import { View, Text, TouchableOpacity, TextInput, Vibration, Animated, Keyboard, Alert } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, Vibration, Animated, Keyboard, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Formik } from 'formik';
 import * as yup from 'yup'
+import * as LocalAuthentication from 'expo-local-authentication';
 
 // Functions
 
@@ -18,6 +19,7 @@ import { auth } from '../../../database/firebase';
 import { getUserData } from '../../../database/requests';
 
 export const LoginForm = ({ navigation }) => {
+    const [isGettingUserData, setIsGettingUserData] = useState(true);
     const [emailActive, setEmailActive] = useState(false);
     const [passwordActive, setPasswordActive] = useState(false);
     const [passwordVisible, setPasswordVisible] = useState(false);
@@ -44,7 +46,13 @@ export const LoginForm = ({ navigation }) => {
     const submitForm = async (values) => {
         Vibration.vibrate(20);
         try {
-            auth.signInWithEmailAndPassword(values.email, values.password);
+            auth.signInWithEmailAndPassword(values.email, values.password)
+                .then(async () => {
+                    navigation.navigate('ApplicationContent');
+                })
+                .catch(async (error) => {
+                    Alert.alert('Error', error.message);
+                });
         } catch (error) {
             console.log("Hubo un error");
         }
@@ -60,11 +68,31 @@ export const LoginForm = ({ navigation }) => {
             .required('a'),
     })
 
+    const handleBiometricAuth = async () => {
+        const authRes = await LocalAuthentication.authenticateAsync(
+            {
+                promptMessage: 'Ingresa tu huella para iniciar sesión',
+                fallbackLabel: 'Use password',
+            }
+        ).then(async (res) => {
+            if (res.success) {
+                const user = auth.currentUser;
+                const userData = await getUserData(user.uid);
+                navigation.navigate('ApplicationContent', { userData });
+            } else {
+                Alert.alert('Error', 'No se pudo iniciar sesión con tu huella');
+            }
+        }).catch(err => {
+            Alert.alert('Error', 'No se pudo iniciar sesión con tu huella');
+        });
+    }
+
     useEffect(() => {
         const unsuscribe = auth.onAuthStateChanged(async (user) => {
             if (user) {
                 getUserData().then(
                     (userData) => {
+                        setIsGettingUserData(false);
                         switch (userData.status.account) {
                             case "created":
                                 navigation.navigate('Validation');
@@ -73,7 +101,7 @@ export const LoginForm = ({ navigation }) => {
                                 navigation.navigate('ValidationComplete');
                                 break;
                             case "verified":
-                                navigation.navigate('ApplicationContent');
+                                handleBiometricAuth();
                                 break;
                             default:
                                 break;
@@ -86,7 +114,7 @@ export const LoginForm = ({ navigation }) => {
         return () => {
             unsuscribe();
         }
-    }, [navigation]);
+    }, [navigation, getUserData]);
 
     return (
         <TouchableOpacity
@@ -505,3 +533,5 @@ export const RegisterForm = ({ navigation }) => {
     );
 }
 
+const styles = StyleSheet.create({
+});
