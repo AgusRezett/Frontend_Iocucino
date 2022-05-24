@@ -11,8 +11,8 @@ export default function Wallets() {
         <SafeAreaView style={styles.container}>
             <ScrollView style={styles.scrollerView}>
                 <CompleteCarousel title="Bancos" getAccounts={getLinkedBankAccounts} />
-                <CompleteCarousel title="Criptomonedas" getAccounts={getLinkedApplicationAccounts} />
-                <CompleteCarousel title="Billeteras virtuales" getAccounts={getLinkedCryptoAccounts} />
+                <CompleteCarousel title="Billeteras virtuales" getAccounts={getLinkedApplicationAccounts} />
+                <CompleteCarousel title="Criptomonedas" getAccounts={getLinkedCryptoAccounts} />
                 <CompleteCarousel title="Billeteras físicas" getAccounts={getLinkedManualAccounts} />
             </ScrollView>
         </SafeAreaView>
