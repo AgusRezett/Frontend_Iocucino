@@ -108,7 +108,7 @@ export const ValidationComplete = () => {
                                 ¡ Eso es todo !
                             </Text>
                             <Text style={styles.screenMessage}>
-                                Ahora nos toca a trabajar a nosotros. Vas a recibir una notificación como la de acá abajo cuando esté lista tu cuenta de Mino.
+                                Ahora nos toca a trabajar a nosotros. Vas a recibir una notificación dentro de las próximas 48hs hábiles avisandote cuando esté lista tu cuenta de Mino.
                             </Text>
                         </View>
                     </View>

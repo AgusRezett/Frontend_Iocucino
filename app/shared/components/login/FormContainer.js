@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 
 // Components
-import { StyleSheet, View, Text, TouchableOpacity, TextInput, Vibration, Animated, Keyboard, Alert } from 'react-native';
+import { ActivityIndicator, StyleSheet, View, Text, TouchableOpacity, TextInput, Vibration, Animated, Keyboard, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Formik } from 'formik';
 import * as yup from 'yup'
@@ -147,7 +147,7 @@ export const LoginForm = ({ navigation }) => {
                                             { top: topEmailAnim }
                                         ]}
                                         >
-                                            Email
+                                            Correo electrónico
                                         </Animated.Text>
                                         <TextInput
                                             onChangeText={handleChange('email')}
