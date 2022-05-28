@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, Button, TouchableOpacity, Text } from 'react-native'
-
+import { useNavigation } from '@react-navigation/native'
 import { WalletCard } from './WalletCard';
 
 import { connect, useDispatch, useSelector } from 'react-redux'
@@ -11,24 +11,14 @@ import PlusIcon from '../../../../assets/icons/plus.svg';
 export const WalletCardsLists = () => {
     const dispatch = useDispatch()
     const linkedAccounts = useSelector(state => state.wallets.linkedAccounts)
+    const navigation = useNavigation()
 
     return (
         <View style={styles.walletsList}>
             <TouchableOpacity
                 style={styles.addWalletButton}
                 onPress={() => {
-                    dispatch({
-                        type: 'ADD_WALLET',
-                        payload: {
-                            id: Math.random(),
-                            name: "Nueva billetera",
-                            balance: "56872.00",
-                            currency: "ARS",
-                            color: "#02A6E7",
-                            performance: "100.00%",
-                            performanceStatus: "up",
-                        }
-                    })
+                    navigation.navigate('NewWallet1')
                 }}
             >
                 <PlusIcon

@@ -22,11 +22,28 @@ import ProfileIcon from '../../assets/icons/profile.svg';
 // Database
 import { getUserData } from '../database/requests';
 import { useEffect, useState } from 'react';
+import NewWallet1 from '../screens/NewWallet/NewWallet1';
 
 const Tab = createBottomTabNavigator();
 
-export default function ApplicationContent({ navigation }) {
-    const [userData, setUserData] = useState(null);
+export default function ApplicationContent({ navigation, route }) {
+    const { userData } = route.params;
+    /* const userData = {
+        country: '54',
+        document: '44749102',
+        expoToken: 'ExponentPushToken[BAkxroLmgv26UHENhVXseQ]',
+        gender: 'm',
+        name: 'Agustin',
+        surname: 'Rezett',
+        phone: '1121707490',
+        photoUrl: 'https://lh3.googleusercontent.com/a-/AOh14GhmHxifKgQDKlrbYqv1aeKsTjXqmI8qvCEkTFcL=s83-c-mo',
+        status: {
+            account: 'verified',
+            email: 'unverified',
+            phone: 'unverified'
+        }
+    } */
+
     const [fontsLoaded] = useFonts({
         /* 'RooneySans-Light': require('./assets/fonts/rooneysans/RooneySansLight.woff'),
         'RooneySans': require('./assets/fonts/rooneysans/RooneySansRegular.woff'),
@@ -60,14 +77,7 @@ export default function ApplicationContent({ navigation }) {
         )
     };
 
-    useEffect(() => {
-        getUserData().then(data => {
-            setUserData(data);
-        });
-    }, [getUserData, setUserData]);
-
-
-    if (!fontsLoaded) {
+    if (!fontsLoaded || !userData) {
         return <AppLoading />;
     } else {
         return (
@@ -110,7 +120,7 @@ export default function ApplicationContent({ navigation }) {
                                 <TabIcon routeName={'Home'} focused={focused} Icon={HomeIcon}></TabIcon>
                             ),
                         }} />
-                    < Tab.Screen
+                    <Tab.Screen
                         name="Wallets"
                         component={Wallets}
                         options={{
@@ -118,6 +128,11 @@ export default function ApplicationContent({ navigation }) {
                                 <TabIcon routeName={'Wallets'} focused={focused} Icon={WalletIcon}></TabIcon>
                             ),
                         }} />
+                    <Tab.Screen
+                        name="NewWallet1"
+                        component={NewWallet1}
+                        options={{ tabBarItemStyle: { display: 'none', } }}
+                    />
                     <Tab.Screen
                         name="Settings"
                         component={Settings}

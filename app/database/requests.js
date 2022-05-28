@@ -2,8 +2,8 @@
 import { auth, firebase } from "./firebase";
 import { Alert } from "react-native";
 
-export const getUserData = async () => {
-    const userData = await firebase.firestore().collection('users').doc(auth.currentUser.uid).get()
+export const getUserData = async (uid) => {
+    const userData = await firebase.firestore().collection('users').doc(uid).get()
         .then(
             (doc) => {
                 if (doc.exists) {

@@ -25,12 +25,12 @@ export const Validation = ({ navigation }) => {
         let permissionResult = null;
         permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (!permissionResult.granted) {
-            Alert.alert("Permisos denegados", "Debes conceder los permisos para continuar con el proceso.", [{ text: "OK" }]);
+            Alert.alert("Permisos denegados", "Debes conceder los permisos a tus fotos para continuar con el proceso.", [{ text: "OK" }]);
             return false;
         } else {
             permissionResult = await ImagePicker.requestCameraPermissionsAsync();
             if (!permissionResult.granted) {
-                Alert.alert("Permisos denegados", "Debes conceder los permisos para continuar con el proceso.", [{ text: "OK" }]);
+                Alert.alert("Permisos denegados", "Debes conceder los permisos de camara para continuar con el proceso.", [{ text: "OK" }]);
                 return false;
             } else {
                 navigation.navigate('DocumentValidation');

@@ -14,7 +14,6 @@ import { loginStack } from '../../styles/loginStack';
 import { background, logo, status, text } from '../../styles/colors';
 
 // Database
-import { getDbConnection, loginDatabase } from '../../../database';
 import { auth } from '../../../database/firebase';
 import { getUserData } from '../../../database/requests';
 
@@ -48,10 +47,6 @@ export const LoginForm = ({ navigation }) => {
         Vibration.vibrate(20);
         try {
             auth.signInWithEmailAndPassword(values.email, values.password)
-                .then(async () => {
-                    setIsSubmitting(false);
-                    navigation.navigate('ApplicationContent');
-                })
                 .catch(async (error) => {
                     Alert.alert('Error', error.message);
                 });
@@ -71,16 +66,14 @@ export const LoginForm = ({ navigation }) => {
     })
 
     const handleBiometricAuth = async () => {
-        const authRes = await LocalAuthentication.authenticateAsync(
-            {
-                promptMessage: 'Ingresa tu huella para iniciar sesión',
-                fallbackLabel: 'Use password',
-            }
-        ).then(async (res) => {
+        await LocalAuthentication.authenticateAsync({
+            promptMessage: 'Ingresa tu huella para iniciar sesión',
+            fallbackLabel: 'Use password',
+        }).then(async (res) => {
             if (res.success) {
-                const user = auth.currentUser;
+                const user = await auth.currentUser;
                 const userData = await getUserData(user.uid);
-                navigation.navigate('ApplicationContent', { userData });
+                await navigation.navigate('ApplicationContent', { userData: userData });
             } else {
                 Alert.alert('Error', 'No se pudo iniciar sesión con tu huella');
             }
@@ -92,7 +85,7 @@ export const LoginForm = ({ navigation }) => {
     useEffect(() => {
         const unsuscribe = auth.onAuthStateChanged(async (user) => {
             if (user) {
-                getUserData().then(
+                getUserData(auth.currentUser.uid).then(
                     (userData) => {
                         switch (userData.status.account) {
                             case "created":
@@ -108,7 +101,9 @@ export const LoginForm = ({ navigation }) => {
                                 break;
                         }
                     }
-                );
+                ).catch(err => {
+                    Alert.alert('Error', err.message);
+                });
             }
         });
 
@@ -133,8 +128,8 @@ export const LoginForm = ({ navigation }) => {
                     <Formik
                         initialValues={{ email: '', password: '' }}
                         onSubmit={(values, { resetForm }) => {
-                            submitForm(values)
-                            //resetForm({ email: '', password: '' })
+                            submitForm(values);
+                            resetForm({ email: '', password: '' })
                         }}
                         validationSchema={loginValidationSchema}
                     >
