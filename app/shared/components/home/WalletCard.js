@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 
-
+import { badgeDictionary } from '../../../functions/GlobalFunctions'
 
 export const WalletCard = ({ account }) => {
     const { name, balance, currency, color, performanceStatus, performance } = account
+    const getBadge = () => {
+        const badge = badgeDictionary().find((badge) => {
+            return badge.id === currency;
+        });
+        return badge.badge;
+    }
+    const [newCurrency, setNewCurrency] = useState(getBadge())
 
     let performanceSign;
     let performanceColor;
@@ -23,6 +30,7 @@ export const WalletCard = ({ account }) => {
             break;
     }
 
+
     return (
         <TouchableOpacity
             style={[styles.walletContainer, { backgroundColor: color }]}
@@ -31,8 +39,8 @@ export const WalletCard = ({ account }) => {
             <View style={styles.walletInfo}>
                 <Text style={styles.walletName}>{name}</Text>
                 <View style={{ flexDirection: 'row' }}>
-                    <Text style={styles.walletCurrency}>{currency}</Text>
-                    <Text style={styles.walletBalance}>{balance}</Text>
+                    <Text style={styles.walletCurrency}>{newCurrency}</Text>
+                    <Text style={styles.walletBalance}>{balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
                 </View>
             </View>
             <View style={styles.walletPerformance}>
