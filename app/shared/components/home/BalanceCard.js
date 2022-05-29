@@ -36,7 +36,12 @@ export default function BalanceCard({ badgeId, value }) {
                     <View style={styles.balanceCardBody}>
                         <View style={styles.balanceCardValueContainer}>
                             <Text style={styles.balanceCarBadgeContent}>{badge.badge}</Text>
-                            <Text style={styles.balanceCardValueContent}>{value}</Text>
+                            <Text
+                                style={styles.balanceCardValueContent}
+                                numberOfLines={1}
+                            >
+                                {value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                            </Text>
                         </View>
                         <View style={styles.balanceCardFlagContainer}>
                             {badge.flag}
@@ -106,6 +111,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Nunito-Bold',
         fontSize: 28,
         color: "#fff",
+        width: 170,
     },
     balanceCardFlagContainer: {
         width: 60,

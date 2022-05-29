@@ -1,4 +1,4 @@
-import { getPrincipalCurrency, getTokenPrice, nationalBadgeDictionary } from "./GlobalFunctions";
+import { badgeDictionary, getPrincipalCurrency, getTokenPrice, nationalBadgeDictionary } from "./GlobalFunctions";
 
 // Logos
 import BrubankLogo from "../../assets/images/logos/brubank.svg";
@@ -8,7 +8,30 @@ import MercadoPagoLogo from "../../assets/images/logos/mercadopago.svg";
 import BinanceLogo from "../../assets/images/logos/binance.svg";
 
 export const getSelectedBadges = () => {
-    return [
+    let badges = [];
+    const linkedAccounts = getLinkedAccounts();
+    const userCurrencies = getUserCurrencies();
+
+    linkedAccounts.forEach((account) => {
+        if (userCurrencies.includes(account.currency)) {
+            const exist = badges.find((badge) => {
+                return badge.id === account.currency;
+            });
+            if (!exist) {
+                badges.push({ id: account.currency, value: parseFloat(account.balance) });
+            } else {
+                badges.forEach((badge) => {
+                    if (badge.id === account.currency) {
+                        badge.value += parseFloat(account.balance);
+                    }
+                });
+            }
+        }
+    });
+
+    return badges;
+
+    /* return [
         {
             id: 3,
             value: "239,172.00",
@@ -21,7 +44,7 @@ export const getSelectedBadges = () => {
             id: 0,
             value: "0.0004",
         },
-    ];
+    ]; */
 }
 
 export const getLinkedAccounts = (logoProps = null) => {
@@ -29,8 +52,8 @@ export const getLinkedAccounts = (logoProps = null) => {
         {
             id: 1,
             name: "Brubank",
-            balance: "6,337.00",
-            currency: "AR$",
+            balance: "6337.00",
+            currency: 3,
             color: "#6440D9",
             performance: "8.00%",
             performanceStatus: "down",
@@ -38,8 +61,8 @@ export const getLinkedAccounts = (logoProps = null) => {
         {
             id: 2,
             name: "Ualá",
-            balance: "7,235.06",
-            currency: "AR$",
+            balance: "7235.06",
+            currency: 3,
             color: "#FE4F5A",
             performance: "138.00%",
             performanceStatus: "up",
@@ -47,8 +70,8 @@ export const getLinkedAccounts = (logoProps = null) => {
         {
             id: 3,
             name: "BBVA",
-            balance: "189,600.00",
-            currency: "AR$",
+            balance: "142189600.00",
+            currency: 3,
             color: "#005096",
             performance: "53.00%",
             performanceStatus: "",
@@ -56,8 +79,8 @@ export const getLinkedAccounts = (logoProps = null) => {
         {
             id: 4,
             name: "Mercadopago",
-            balance: "36,000.00",
-            currency: "AR$",
+            balance: "36000.00",
+            currency: 3,
             color: "#02A6E7",
             performance: "5.00%",
             performanceStatus: "down",
@@ -66,7 +89,7 @@ export const getLinkedAccounts = (logoProps = null) => {
             id: 5,
             name: "Binance",
             balance: "0.0004",
-            currency: "BTC",
+            currency: 0,
             color: "#E8B30B",
             performance: "47.00%",
             performanceStatus: "up",
@@ -219,3 +242,8 @@ export const toggleNewWallet = (option) => {
             break;
     }
 }
+
+export const getUserCurrencies = () => {
+    return [3, 2, 0]
+}
+

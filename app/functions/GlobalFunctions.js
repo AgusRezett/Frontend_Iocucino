@@ -21,6 +21,7 @@ import Usa from '../../assets/svgs/flags/us.svg';
 export const badgeDictionary = (flagProps = null) => {
     return [
         {
+            id: 0,
             title: 'Bitcoins',
             flag: <Btc {...flagProps} />,
             badge: 'BTC',
@@ -28,23 +29,26 @@ export const badgeDictionary = (flagProps = null) => {
             backgroundClass: "btc-flag",
         },
         {
+            id: 1,
             title: 'Dólares estadounidenses',
             flag: <Usa {...flagProps} />,
-            badge: 'US$',
+            badge: 'USD',
             color: "#2da06e",
             backgroundClass: "usd-flag",
         },
         {
+            id: 2,
             title: 'Euros',
             flag: <Eur {...flagProps} />,
-            badge: '€',
+            badge: 'EUR',
             color: "#004aa2",
             backgroundClass: "eur-flag"
         },
         {
+            id: 3,
             title: 'Pesos argentinos',
             flag: <Arg {...flagProps} />,
-            badge: 'AR$',
+            badge: 'ARS',
             color: "#338af3",
             backgroundClass: "arg-flag"
         }

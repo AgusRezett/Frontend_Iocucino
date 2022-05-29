@@ -27,8 +27,8 @@ import NewWallet1 from '../screens/NewWallet/NewWallet1';
 const Tab = createBottomTabNavigator();
 
 export default function ApplicationContent({ navigation, route }) {
-    const { userData } = route.params;
-    /* const userData = {
+    //const { userData } = route.params;
+    const userData = {
         country: '54',
         document: '44749102',
         expoToken: 'ExponentPushToken[BAkxroLmgv26UHENhVXseQ]',
@@ -42,7 +42,7 @@ export default function ApplicationContent({ navigation, route }) {
             email: 'unverified',
             phone: 'unverified'
         }
-    } */
+    }
 
     const [fontsLoaded] = useFonts({
         /* 'RooneySans-Light': require('./assets/fonts/rooneysans/RooneySansLight.woff'),
