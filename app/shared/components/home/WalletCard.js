@@ -3,7 +3,10 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 
 import { badgeDictionary } from '../../../functions/GlobalFunctions'
 
+import { useNavigation } from '@react-navigation/native'
+
 export const WalletCard = ({ account }) => {
+    const navigate = useNavigation()
     const { name, balance, currency, color, performanceStatus, performance } = account
     const getBadge = () => {
         const badge = badgeDictionary().find((badge) => {
@@ -30,11 +33,13 @@ export const WalletCard = ({ account }) => {
             break;
     }
 
-
     return (
         <TouchableOpacity
             style={[styles.walletContainer, { backgroundColor: color }]}
             activeOpacity={.9}
+            onPress={() => {
+                navigate.navigate('WalletDetails', { account: account })
+            }}
         >
             <View style={styles.walletInfo}>
                 <Text style={styles.walletName}>{name}</Text>
@@ -47,7 +52,7 @@ export const WalletCard = ({ account }) => {
                 <Text style={[styles.walletPerformanceStatus, { color: performanceColor }]}>{performanceSign}</Text>
                 <Text style={[styles.walletPerformanceText, { color: performanceColor }]}>{performance}</Text>
             </View>
-        </TouchableOpacity>
+        </TouchableOpacity >
     )
 }
 
@@ -75,7 +80,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
-        //backgroundColor: 'red',
     },
     walletName: {
         fontFamily: 'Nunito-Bold',

@@ -14,8 +14,8 @@ export const text = {
 export const status = {
     success: '#00C853',
     successBg: '#D1FFE4', //opacity 0.1
-    error: '#D80027',
-    errorBg: '#FF142F', //opacity 0.1
+    error: '#FF142F',
+    errorBg: '#FFD1D1', //opacity 0.1
     warning: '#FFB300',
     info: '#2196F3',
 }

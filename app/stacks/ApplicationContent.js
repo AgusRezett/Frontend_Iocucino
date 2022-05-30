@@ -7,6 +7,8 @@ import Home from '../screens/Home';
 import Wallets from '../screens/Wallets';
 import Settings from '../screens/Settings';
 import Profile from '../screens/Profile';
+import NewWallet1 from '../screens/NewWallet/NewWallet1';
+import WalletDetails from '../screens/WalletDetails';
 
 // Components
 import { TouchableOpacity, Vibration, View } from 'react-native';
@@ -22,7 +24,6 @@ import ProfileIcon from '../../assets/icons/profile.svg';
 // Database
 import { getUserData } from '../database/requests';
 import { useEffect, useState } from 'react';
-import NewWallet1 from '../screens/NewWallet/NewWallet1';
 
 const Tab = createBottomTabNavigator();
 
@@ -131,6 +132,11 @@ export default function ApplicationContent({ navigation, route }) {
                     <Tab.Screen
                         name="NewWallet1"
                         component={NewWallet1}
+                        options={{ tabBarItemStyle: { display: 'none', } }}
+                    />
+                    <Tab.Screen
+                        name="WalletDetails"
+                        component={WalletDetails}
                         options={{ tabBarItemStyle: { display: 'none', } }}
                     />
                     <Tab.Screen

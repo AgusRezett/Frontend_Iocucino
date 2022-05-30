@@ -30,21 +30,6 @@ export const getSelectedBadges = () => {
     });
 
     return badges;
-
-    /* return [
-        {
-            id: 3,
-            value: "239,172.00",
-        },
-        {
-            id: 2,
-            value: "0",
-        },
-        {
-            id: 0,
-            value: "0.0004",
-        },
-    ]; */
 }
 
 export const getLinkedAccounts = (logoProps = null) => {
@@ -166,6 +151,102 @@ export const getLinkedManualAccounts = (logoProps = null) => {
     return [
         {}
     ];
+}
+
+export const getWalletData = (id) => {
+    const wallets = [
+        {
+            id: 1,
+            name: "Brubank",
+            balance: "6337.00",
+            currency: 3,
+            color: "#6440D9",
+            performance: "8.00%",
+            performanceStatus: "down",
+            cardAvailable: true,
+            cardNumber: "**** **** **** ****",
+            cardExpiration: "12/20",
+            cardCvv: "***",
+            cardName: "Juan Perez",
+            cardType: "Crédito",
+            cardService: "Visa",
+            cardLimit: "2,000.00",
+            transactions: [
+                {
+                    id: 1,
+                    type: "Transaccion",
+                    date: "14/05/2022",
+                    amount: "20030.00",
+                },
+                {
+                    id: 2,
+                    type: "Ingreso",
+                    date: "14/05/2022",
+                    amount: "20030.00",
+                },
+                {
+                    id: 3,
+                    type: "Transaccion",
+                    date: "14/05/2022",
+                    amount: "20030.00",
+                },
+                {
+                    id: 4,
+                    type: "Transaccion",
+                    date: "14/05/2022",
+                    amount: "20030.00",
+                },
+                {
+                    id: 5,
+                    type: "Compra",
+                    date: "14/05/2022",
+                    amount: "20030.00",
+                },
+            ]
+
+        },
+        {
+            id: 2,
+            name: "Ualá",
+            balance: "7235.06",
+            currency: 3,
+            color: "#FE4F5A",
+            performance: "138.00%",
+            performanceStatus: "up",
+        },
+        {
+            id: 3,
+            name: "BBVA",
+            balance: "142189600.00",
+            currency: 3,
+            color: "#005096",
+            performance: "53.00%",
+            performanceStatus: "",
+        },
+        {
+            id: 4,
+            name: "Mercadopago",
+            balance: "36000.00",
+            currency: 3,
+            color: "#02A6E7",
+            performance: "5.00%",
+            performanceStatus: "down",
+        },
+        {
+            id: 5,
+            name: "Binance",
+            balance: "0.0004",
+            currency: 0,
+            color: "#E8B30B",
+            performance: "47.00%",
+            performanceStatus: "up",
+        }
+    ];
+
+    const wallet = wallets.find((wallet) => {
+        return wallet.id === id;
+    });
+    return wallet;
 }
 
 export const getAccountsSeries = (accounts, usdValue) => {
