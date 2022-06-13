@@ -3,17 +3,15 @@ import * as firebase from "firebase";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
+
 // Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyDbXqWEDbnTfYE6wNgEb1olnI_qm7iVM1U",
-    authDomain: "mino-51761.firebaseapp.com",
-    databaseURL: "https://mino-51761-default-rtdb.firebaseio.com",
-    projectId: "mino-51761",
-    storageBucket: "mino-51761.appspot.com",
-    messagingSenderId: "948877004741",
-    appId: "1:948877004741:web:bb808f646d70890d9885ac",
-    measurementId: "G-8V52YDWE7L"
+    apiKey: "AIzaSyBX6PvQS8Z-WSMirzmx32mLLXO9-VyleQE",
+    authDomain: "mino-14808.firebaseapp.com",
+    projectId: "mino-14808",
+    storageBucket: "mino-14808.appspot.com",
+    messagingSenderId: "537945922970",
+    appId: "1:537945922970:web:0bfb66e09228845415ae23"
 };
 
 // Initialize Firebase
@@ -27,3 +25,4 @@ if (firebase.apps.length === 0) {
 const auth = firebase.auth();
 
 export { auth, firebase };
+

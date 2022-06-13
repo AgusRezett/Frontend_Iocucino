@@ -17,7 +17,7 @@ const Stack = createNativeStackNavigator();
 export default function Login() {
     return (
         <Stack.Navigator
-            initialRouteName='LoginForm'
+            initialRouteName='Login'
             screenOptions={{
                 gestureEnabled: true,
                 headerShown: false,

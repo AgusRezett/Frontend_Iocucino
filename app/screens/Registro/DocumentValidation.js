@@ -26,7 +26,7 @@ let openGallery = async (setImageAction) => {
         base64: true
     });
     if (!pickerResult.cancelled) {
-        setImageAction({ localUri: pickerResult.uri });
+        setImageAction(pickerResult.uri);
     }
 };
 
@@ -60,7 +60,6 @@ const manipResult = async (imageUri, setImageAction) => {
         [{ resize: { width: 640 } }],
         { format: 'png' },
     );
-
     setImageAction(manipResult.uri);
 }
 
@@ -101,12 +100,11 @@ export const DocumentValidation = ({ navigation }) => {
 
     const submitForm = () => {
         Vibration.vibrate(20);
-
         getUserData().then(
             (userData) => {
                 const userDocument = userData.document;
-                uploadImage(setFilesUploading, dniFrenteImage.localUri, userDocument, userDocument + '_dni_frente' + '.png', setDniFrenteUploadStatus).then((response) => {
-                    uploadImage(setFilesUploading, dniDorsoImage.localUri, userDocument, userDocument + '_dni_dorso' + '.png', setDniDorsoUploadStatus).then((response) => {
+                uploadImage(setFilesUploading, dniFrenteImage, userDocument, userDocument + '_dni_frente' + '.png', setDniFrenteUploadStatus).then((response) => {
+                    uploadImage(setFilesUploading, dniDorsoImage, userDocument, userDocument + '_dni_dorso' + '.png', setDniDorsoUploadStatus).then((response) => {
                         setFilesUploading(false);
                         navigation.navigate('FaceValidation', { userDocument: userDocument });
                     }).catch((error) => {
@@ -163,14 +161,14 @@ export const DocumentValidation = ({ navigation }) => {
                                         />
                                         <View style={styles.imagePlace}>
                                             <Image
-                                                source={{ uri: dniFrenteImage.localUri }}
+                                                source={{ uri: dniFrenteImage }}
                                                 style={styles.pickerImage}
                                             />
                                         </View>
                                     </>
                                     :
                                     <OptionsPicker
-                                        setImageAction={setDniFrenteImage}
+                                        setImageAction={(e) => setDniFrenteImage(e)}
                                     />
                             }
                         </View>
@@ -191,7 +189,7 @@ export const DocumentValidation = ({ navigation }) => {
                                         </TouchableOpacity>
                                         <View style={styles.imagePlace}>
                                             <Image
-                                                source={{ uri: dniDorsoImage.localUri }}
+                                                source={{ uri: dniDorsoImage }}
                                                 style={styles.pickerImage}
                                             />
                                         </View>
@@ -204,7 +202,7 @@ export const DocumentValidation = ({ navigation }) => {
                                     </>
                                     :
                                     <OptionsPicker
-                                        setImageAction={setDniDorsoImage}
+                                        setImageAction={(e) => setDniDorsoImage(e)}
                                     />
                             }
                         </View>

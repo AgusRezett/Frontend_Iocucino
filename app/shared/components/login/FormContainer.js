@@ -49,6 +49,15 @@ export const LoginForm = ({ navigation }) => {
         Vibration.vibrate(20);
         try {
             auth.signInWithEmailAndPassword(values.email, values.password)
+                .then(() => {
+                    getUserData(values.email)
+                        .then(userData => {
+                            navigation.navigate('ApplicationContent', { userData });
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                })
                 .catch(async (error) => {
                     setIsSubmitting(false);
                     setErrorLoginMessage(error.message);

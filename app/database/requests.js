@@ -2,13 +2,14 @@
 import { auth, firebase } from "./firebase";
 import { Alert } from "react-native";
 
-export const getUserData = async (uid) => {
-    const userData = await firebase.firestore().collection('users').doc(uid).get()
+export const getUserData = async () => {
+    const userData = await firebase.firestore().collection('users').doc(auth.currentUser.uid).get()
         .then(
             (doc) => {
                 if (doc.exists) {
                     return doc.data();
                 } else {
+                    Alert.alert('Error', 'No se pudo obtener los datos del usuario');
                     return null;
                 }
             }
@@ -33,8 +34,12 @@ export const createNewUser = async (userData, navigation, setRegisterLoading) =>
                 },
                 photoUrl: ''
             }).then(() => {
-                setRegisterLoading(false);
-                navigation.navigate('Validation');
+                // login
+                auth.signInWithEmailAndPassword(userData.email, userData.password)
+                    .then(() => {
+                        setRegisterLoading(false);
+                        navigation.navigate('Validation');
+                    })
             }).catch(error => {
                 console.error("Error adding document: ", error);
             });
@@ -59,7 +64,6 @@ export const updateUserStatus = async (statusKey, statusValue, navigation) => {
 export const uploadImage = async (setFilesUploading, imageUri, userDocument, imageName, changeUploadStatus) => {
     const response = await fetch(imageUri);
     const blob = await response.blob();
-
     const ref = firebase.storage().ref().child(`/${userDocument}-validation`).child(`${imageName}`);
     const task = ref.put(blob);
 
