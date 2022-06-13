@@ -55,7 +55,7 @@ export const getLinkedAccounts = (logoProps = null) => {
         {
             id: 3,
             name: "BBVA",
-            balance: "142189600.00",
+            balance: "189600.00",
             currency: 3,
             color: "#005096",
             performance: "53.00%",

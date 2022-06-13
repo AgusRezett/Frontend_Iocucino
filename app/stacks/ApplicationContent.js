@@ -28,22 +28,22 @@ import { useEffect, useState } from 'react';
 const Tab = createBottomTabNavigator();
 
 export default function ApplicationContent({ navigation, route }) {
-    //const { userData } = route.params;
-    const userData = {
-        country: '54',
-        document: '44749102',
-        expoToken: 'ExponentPushToken[BAkxroLmgv26UHENhVXseQ]',
-        gender: 'm',
-        name: 'Agustin',
-        surname: 'Rezett',
-        phone: '1121707490',
-        photoUrl: 'https://lh3.googleusercontent.com/a-/AOh14GhmHxifKgQDKlrbYqv1aeKsTjXqmI8qvCEkTFcL=s83-c-mo',
-        status: {
-            account: 'verified',
-            email: 'unverified',
-            phone: 'unverified'
-        }
-    }
+    const { userData } = route.params;
+    /*  const userData = {
+         country: '54',
+         document: '44749102',
+         expoToken: 'ExponentPushToken[BAkxroLmgv26UHENhVXseQ]',
+         gender: 'm',
+         name: 'Agustin',
+         surname: 'Rezett',
+         phone: '1121707490',
+         photoUrl: 'https://lh3.googleusercontent.com/a-/AOh14GhmHxifKgQDKlrbYqv1aeKsTjXqmI8qvCEkTFcL=s83-c-mo',
+         status: {
+             account: 'verified',
+             email: 'unverified',
+             phone: 'unverified'
+         }
+     } */
 
     const [fontsLoaded] = useFonts({
         /* 'RooneySans-Light': require('./assets/fonts/rooneysans/RooneySansLight.woff'),

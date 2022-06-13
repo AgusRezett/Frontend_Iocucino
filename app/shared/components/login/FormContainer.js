@@ -23,6 +23,8 @@ export const LoginForm = ({ navigation }) => {
     const [passwordActive, setPasswordActive] = useState(false);
     const [passwordVisible, setPasswordVisible] = useState(false);
 
+    const [errorLoginMessage, setErrorLoginMessage] = useState('');
+
     const topEmailAnim = useRef(new Animated.Value(8)).current;
     const topPasswordAnim = useRef(new Animated.Value(8)).current;
     const moveUp = (type) => {
@@ -48,7 +50,11 @@ export const LoginForm = ({ navigation }) => {
         try {
             auth.signInWithEmailAndPassword(values.email, values.password)
                 .catch(async (error) => {
-                    Alert.alert('Error', error.message);
+                    setIsSubmitting(false);
+                    setErrorLoginMessage(error.message);
+                    setTimeout(() => {
+                        setErrorLoginMessage('');
+                    }, 5000);
                 });
         } catch (error) {
             console.log("Hubo un error");
@@ -102,7 +108,8 @@ export const LoginForm = ({ navigation }) => {
                         }
                     }
                 ).catch(err => {
-                    Alert.alert('Error', err.message);
+                    setIsSubmitting(false);
+                    setErrorLoginMessage(err.message);
                 });
             }
         });
@@ -193,6 +200,7 @@ export const LoginForm = ({ navigation }) => {
                                             <Text style={loginStack.errorText}>{errors.password}</Text>
                                         }
                                     </View>
+                                    <Text style={{ marginTop: 20, textAlign: 'center' }}>{errorLoginMessage}</Text>
                                 </View>
                                 <TouchableOpacity style={isValid ? loginStack.submitBtn : loginStack.submitBtnDisabled} onPress={handleSubmit} disabled={!isValid}>
                                     {
